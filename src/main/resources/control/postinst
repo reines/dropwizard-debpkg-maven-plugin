@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+initctl reload-configuration
+start "{{project.artifactId}}"
+
+exit 0

@@ -1,0 +1,8 @@
+Package: {{deb.name}}
+Version: {{deb.version}}
+Section: misc
+Priority: low
+Architecture: all
+Description: {{project.description}}
+Maintainer: {{deb.maintainer}}
+Depends: {{jvm.packageName}} {{#jvm.packageVersion}}(= {{jvm.packageVersion}}){{/jvm.packageVersion}}
