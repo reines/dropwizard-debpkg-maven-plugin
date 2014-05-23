@@ -1,6 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <groupId>com.jamierf.dropwizard</groupId>
     <artifactId>dropwizard-debpkg-maven-plugin</artifactId>
     <version>0.1-SNAPSHOT</version>
@@ -8,6 +14,32 @@
 
     <name>Dropwizard Debian packaging Maven plugin</name>
     <url>http://maven.apache.org</url>
+
+    <developers>
+        <developer>
+            <name>Jamie Furness</name>
+            <email>jamie@jamierf.co.uk</email>
+            <timezone>0</timezone>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <url>https://github.com/reines/dropwizard-debpkg-maven-plugin/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/reines/dropwizard-debpkg-maven-plugin</url>
+        <connection>scm:git:git://github.com/reines/dropwizard-debpkg-maven-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:reines/dropwizard-debpkg-maven-plugin.git</developerConnection>
+    </scm>
 
     <properties>
         <jdk.version>1.7</jdk.version>
