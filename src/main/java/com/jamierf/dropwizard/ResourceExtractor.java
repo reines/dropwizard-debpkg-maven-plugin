@@ -37,7 +37,7 @@ public class ResourceExtractor {
             if (resource != null) {
                 final ByteSource source = Resources.asByteSource(resource);
                 final File target = new File(destinationDir, path);
-                extractResource(source, target, false);
+                extractResource(source, target, true);
             }
         }
 
