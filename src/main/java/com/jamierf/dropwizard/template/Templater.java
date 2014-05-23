@@ -5,5 +5,5 @@ import java.io.Reader;
 import java.io.Writer;
 
 public interface Templater {
-    void execute(Reader input, Writer output, Object parameters) throws IOException;
+    void execute(Reader input, Writer output, String name, Object parameters) throws IOException;
 }

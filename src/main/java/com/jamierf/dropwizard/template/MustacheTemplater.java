@@ -6,19 +6,14 @@ import com.github.mustachejava.MustacheFactory;
 
 import java.io.Reader;
 import java.io.Writer;
-import java.util.UUID;
 
 public class MustacheTemplater implements Templater {
 
     private static final MustacheFactory MUSTACHE = new DefaultMustacheFactory();
 
-    private static String randomTemplateName() {
-        return UUID.randomUUID().toString();
-    }
-
     @Override
-    public void execute(Reader input, Writer output, Object parameters) {
-        final Mustache template = MUSTACHE.compile(input, randomTemplateName());
+    public void execute(Reader input, Writer output, String name, Object parameters) {
+        final Mustache template = MUSTACHE.compile(input, name);
         // TODO: Error on missing parameters
         template.execute(output, parameters);
     }

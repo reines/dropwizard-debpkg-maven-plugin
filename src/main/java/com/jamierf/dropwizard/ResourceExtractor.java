@@ -69,7 +69,7 @@ public class ResourceExtractor {
         try (final InputStreamReader input = new InputStreamReader(source.openStream())) {
             try (final Writer output = new OutputStreamWriter(createFile(target))) {
                 log.debug(String.format("Extracting %s to %s", source, target));
-                TEMPLATER.execute(input, output, parameters);
+                TEMPLATER.execute(input, output, target.getAbsolutePath(), parameters);
             }
         }
     }
