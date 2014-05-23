@@ -1,4 +1,4 @@
-# Dropwizard Debian Package Maven Plugin
+# Dropwizard Debian Package
 
 A maven plugin for packaging your Dropwizard Application as a Debian package. Your Application is managed as an Upstart job, with the service name `${project.artifactId}`.
 

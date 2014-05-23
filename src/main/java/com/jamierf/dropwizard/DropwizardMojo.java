@@ -59,6 +59,9 @@ public class DropwizardMojo extends AbstractMojo {
 
     @Parameter
     private File artifactFile;
+
+    @Parameter
+    private File outputFile;
     
     public void execute() throws MojoExecutionException {
         setupMojoConfiguration();
@@ -80,6 +83,10 @@ public class DropwizardMojo extends AbstractMojo {
         if (artifactFile == null) {
             // TODO: This probably isn't the best way to find the right artifact (what if the project has <packaging>deb</packaging>?)
             artifactFile = project.getArtifact().getFile();
+        }
+
+        if (outputFile == null) {
+            outputFile = new File(project.getBuild().getDirectory(), String.format("%s-%s.deb", project.getArtifactId(), project.getVersion()));
         }
     }
 
@@ -118,9 +125,8 @@ public class DropwizardMojo extends AbstractMojo {
 
     private File createPackage(Collection<Resource> resources, File inputDir) throws MojoExecutionException {
         try {
-            final File debFile = new File(project.getBuild().getDirectory(), String.format("%s-%s.deb", project.getArtifactId(), project.getVersion()));
-            new PackageBuilder(project, getLog()).createPackage(resources, inputDir, debFile);
-            return debFile;
+            new PackageBuilder(project, getLog()).createPackage(resources, inputDir, outputFile);
+            return outputFile;
         }
         catch (PackagingException e) {
             getLog().error("Failed to create Debian package", e);
@@ -129,10 +135,11 @@ public class DropwizardMojo extends AbstractMojo {
     }
 
     private void attachArtifact(File artifact, String type) {
-        getLog().info(String.format("Attaching created %s package %s", type, artifact));
         if (!type.equals(project.getArtifact().getType())) {
+            getLog().info(String.format("Attaching created %s package %s", type, artifact));
             helper.attachArtifact(project, type, artifact);
         } else {
+            getLog().info(String.format("Setting created %s package %s", type, artifact));
             project.getArtifact().setFile(artifact);
         }
     }
