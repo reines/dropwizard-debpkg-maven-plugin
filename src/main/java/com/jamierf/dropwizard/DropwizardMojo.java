@@ -99,6 +99,7 @@ public class DropwizardMojo extends AbstractMojo {
                 .put("jvm", jvm)
                 .put("unix", unix)
                 .put("dw", dropwizard)
+                .put("dropwizard", dropwizard)
                 .put("path", path)
                 .build();
     }
