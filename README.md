@@ -2,6 +2,8 @@
 
 A maven plugin for packaging your Dropwizard Application as a Debian package. Your Application is managed as an Upstart job, with the service name `${project.artifactId}`.
 
+[![Build Status](https://api.travis-ci.org/reines/dropwizard-debpkg-maven-plugin.png)](https://travis-ci.org/reines/dropwizard-debpkg-maven-plugin)
+
 File paths are configurable, and default to:
 
 - __jarFile__: `/usr/share/java/${project.artifactId}.jar`
