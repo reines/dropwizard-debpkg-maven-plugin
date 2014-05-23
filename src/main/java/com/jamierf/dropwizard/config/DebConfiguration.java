@@ -28,7 +28,7 @@ public class DebConfiguration {
 
     @SuppressWarnings("unused")
     public String getVersion() {
-        return Utils.convertToDebianVersion(project.getVersion(), false, null, session.getStartTime());
+        return Utils.convertToDebianVersion(project.getVersion(), true, null, session.getStartTime());
     }
 
     @SuppressWarnings("unused")
