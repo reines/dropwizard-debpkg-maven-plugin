@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.resource.Resource;
-import com.jamierf.dropwizard.template.MustacheTemplater;
+import com.jamierf.dropwizard.template.mustache.MustacheTemplater;
 import com.jamierf.dropwizard.template.Templater;
 import org.apache.maven.plugin.logging.Log;
 
