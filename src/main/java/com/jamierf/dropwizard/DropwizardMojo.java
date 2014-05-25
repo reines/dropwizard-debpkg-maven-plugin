@@ -43,6 +43,14 @@ public class DropwizardMojo extends AbstractMojo {
     private static final String INPUT_ARTIFACT_TYPE = "jar";
     private static final String OUTPUT_ARTIFACT_TYPE = "deb";
 
+    private static final String DROPWIZARD_GROUP_ID = "io.dropwizard";
+    private static final String DROPWIZARD_ARTIFACT_ID = "dropwizard-core";
+
+    private static final String WORKING_DIRECTORY_NAME = "dropwizard-deb-package";
+
+    // Octal integers
+    private static final int UNIX_MODE_USER_ONLY = 0100600;
+
     @Component
     private MavenProjectHelper helper;
 
@@ -76,8 +84,8 @@ public class DropwizardMojo extends AbstractMojo {
     @Parameter
     private File outputFile;
 
-    @Parameter
-    private boolean validate = true;
+    @Parameter(defaultValue = "true")
+    private boolean validate;
 
     private Console log = new LogConsole(getLog());
 
@@ -111,7 +119,7 @@ public class DropwizardMojo extends AbstractMojo {
         }
 
         if (outputFile == null) {
-            final String outputFilename = String.format("%s-%s.deb", project.getArtifactId(), project.getVersion());
+            final String outputFilename = String.format("%s-%s.%s", project.getArtifactId(), project.getVersion(), OUTPUT_ARTIFACT_TYPE);
             outputFile = new File(project.getBuild().getDirectory(), outputFilename);
         }
     }
@@ -119,7 +127,7 @@ public class DropwizardMojo extends AbstractMojo {
     // TODO: Allow the user to add to this
     private Collection<Resource> buildResourceList() {
         return ImmutableList.<Resource>builder()
-                .add(new FileResource(configTemplate, true, path.getConfigFile(), unix.getUser(), unix.getUser(), 0100600))
+                .add(new FileResource(configTemplate, true, path.getConfigFile(), unix.getUser(), unix.getUser(), UNIX_MODE_USER_ONLY))
                 .add(new EmbeddedResource("/files/upstart.conf", true, path.getUpstartFile(), "root", "root", TarEntry.DEFAULT_FILE_MODE))
                 .add(new FileResource(artifactFile, false, path.getJarFile(), unix.getUser(), unix.getUser(), TarEntry.DEFAULT_FILE_MODE))
                 .build();
@@ -140,7 +148,7 @@ public class DropwizardMojo extends AbstractMojo {
 
     private File extractResources(Collection<Resource> resources, Map<String, Object> parameters) throws MojoExecutionException {
         try {
-            final File outputDir = new File(project.getBuild().getDirectory(), "dropwizard-package");
+            final File outputDir = new File(project.getBuild().getDirectory(), WORKING_DIRECTORY_NAME);
             new ResourceExtractor(parameters, getLog()).extractResources(resources, outputDir);
             return outputDir;
         }
@@ -151,7 +159,7 @@ public class DropwizardMojo extends AbstractMojo {
 
     private void validateApplicationConfiguration(File resourcesDir) throws MojoExecutionException {
         try {
-            final Optional<Dependency> dropwizardDependency = Iterables.tryFind(project.getModel().getDependencies(), new DependencyFilter("io.dropwizard", "dropwizard-core"));
+            final Optional<Dependency> dropwizardDependency = Iterables.tryFind(project.getModel().getDependencies(), new DependencyFilter(DROPWIZARD_GROUP_ID, DROPWIZARD_ARTIFACT_ID));
             if (!dropwizardDependency.isPresent()) {
                 log.warn("Failed to find Dropwizard dependency in project. Skipping configuration validation.");
                 return;
@@ -161,7 +169,7 @@ public class DropwizardMojo extends AbstractMojo {
             log.info(String.format("Detected Dropwizard %s, attempting to validate configuration.", version));
 
             if (!ApplicationValidator.canSupportVersion(version)) {
-                log.warn(String.format("The max Dropwizard version supported by this plugin is %s. If validation fails you can disable this step by setting `validation` to false.",
+                log.warn(String.format("The latest Dropwizard version supported by this plugin is %s. We will attempt validation anyway, but if it fails you can disable this step by setting `validation` to false.",
                         ApplicationValidator.MAX_SUPPORTED_VERSION));
             }
 
@@ -190,8 +198,8 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private void attachArtifact(File artifact) {
-        log.info(String.format("Attaching created %s package %s", OUTPUT_ARTIFACT_TYPE, artifact));
-        helper.attachArtifact(project, OUTPUT_ARTIFACT_TYPE, artifact);
+    private void attachArtifact(File artifactFile) {
+        log.info(String.format("Attaching created %s package %s", OUTPUT_ARTIFACT_TYPE, artifactFile));
+        helper.attachArtifact(project, OUTPUT_ARTIFACT_TYPE, artifactFile);
     }
 }
