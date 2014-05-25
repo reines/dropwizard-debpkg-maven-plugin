@@ -77,7 +77,30 @@ Your Application configuration file should be a Mustache template, with paramete
 
 ## Configuration
 
-
+    <configuration>
+        <deb>
+            <maintainer>Unspecified</maintainer><!-- Optional: The person responsible for this service. -->
+        </deb>
+        <jvm>
+            <memory>128m</memory><!-- Optional: JVM heap size to allocate, once deployed. -->
+            <packageName>openjdk-7-jdk</packageName><!-- Optional: JRE package to ensure installed as part of deployment. -->
+            <packageVersion>latest</packageVersion><!-- Optional: Version of JRE package to require, defaults to the latest. -->
+        </jvm>
+        <unix>
+            <user>dropwizard</user><!-- Optional: The unix user to create and run as. -->
+        </unix>
+        <path>
+            <jarFile>/usr/share/java/${project.artifactId}.jar</jarFile><!-- Optional: Path to the service jar, once deployed. -->
+            <configFile>/etc/${project.artifactId}.yml</configFile><!-- Optional: Path to your service configuration, once deployed. -->
+            <logDirectory>/var/log/${project.artifactId}</logDirectory><!-- Optional: Directory for service logs, once deployed. -->
+            <upstartFile>/etc/init/${project.artifactId}.conf</upstartFile><!-- Optional: Path to the service upstart configuration, once deployed. -->
+        </path>
+        <dropwizard /><!-- Optional: Map of parameters to substitute in to your configuration template on packaging. -->
+        <configTemplate /><!-- Required: Path to your service configuration template. -->
+        <artifactFile>${project.build.directory}/${project.artifactId}-${project.version}.jar</artifactFile><!-- Optional: Path to the service jar to package. -->
+        <artifactFile>${project.build.directory}/${project.artifactId}-${project.version}.deb</artifactFile><!-- Optional: The path to output the Debian package to. -->
+        <validate>true</validate><!-- Optional: Enable validation of your service configuration at package time. -->
+    </configuration>
 
 ## License
 
