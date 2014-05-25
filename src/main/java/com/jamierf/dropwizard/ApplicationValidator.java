@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.template.Templater;
 import javassist.*;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.vafer.jdeb.Console;
 
 import java.io.File;
@@ -16,11 +17,11 @@ import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.util.jar.JarFile;
 
-// TODO: This assumes DW 0.7.0 - can we check what version the project is using and behave sensibly?
 public class ApplicationValidator {
 
     private static final Templater TEMPLATER = Templater.getDefault();
     private static final String MANIFEST_MAIN_CLASS_ATTRIBUTE = "Main-Class";
+    public static final ComparableVersion MAX_SUPPORTED_VERSION = new ComparableVersion("0.7.0");
 
     private static String loadValidateMethod(String configClass, String configFile) throws IOException {
         final String template = Resources.toString(ApplicationValidator.class.getResource("/validate.java"), StandardCharsets.UTF_8);
@@ -28,6 +29,11 @@ public class ApplicationValidator {
                 "configClass", configClass,
                 "configFile", configFile
         ));
+    }
+
+    public static boolean canSupportVersion(ComparableVersion version) {
+        // version is <= the max supported
+        return version.compareTo(MAX_SUPPORTED_VERSION) < 1;
     }
 
     private final File artifactFile;

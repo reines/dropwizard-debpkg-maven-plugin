@@ -1,17 +1,22 @@
 package com.jamierf.dropwizard;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.io.Files;
 import com.jamierf.dropwizard.config.DebConfiguration;
 import com.jamierf.dropwizard.config.JvmConfiguration;
 import com.jamierf.dropwizard.config.PathConfiguration;
 import com.jamierf.dropwizard.config.UnixConfiguration;
+import com.jamierf.dropwizard.filter.DependencyFilter;
 import com.jamierf.dropwizard.resource.EmbeddedResource;
 import com.jamierf.dropwizard.resource.FileResource;
 import com.jamierf.dropwizard.resource.Resource;
 import com.jamierf.dropwizard.util.LogConsole;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
@@ -136,6 +141,20 @@ public class DropwizardMojo extends AbstractMojo {
 
     private void validateApplicationConfiguration(File resourcesDir) throws MojoExecutionException {
         try {
+            final Optional<Dependency> dropwizardDependency = Iterables.tryFind(project.getModel().getDependencies(), new DependencyFilter("io.dropwizard", "dropwizard-core"));
+            if (!dropwizardDependency.isPresent()) {
+                console.warn("Failed to find Dropwizard dependency in project. Skipping configuration validation.");
+                return;
+            }
+
+            final ComparableVersion version = new ComparableVersion(dropwizardDependency.get().getVersion());
+            console.info(String.format("Detected Dropwizard %s, attempting to validate configuration.", version));
+
+            if (!ApplicationValidator.canSupportVersion(version)) {
+                console.warn(String.format("The max Dropwizard version supported by this plugin is %s. If validation fails you can disable this step by setting `validation` to false.",
+                        ApplicationValidator.MAX_SUPPORTED_VERSION));
+            }
+
             final File tempDirectory = Files.createTempDir();
             final File configFile = new File(resourcesDir, "/files" + path.getConfigFile());
             final ApplicationValidator validator = new ApplicationValidator(artifactFile, console, tempDirectory);
