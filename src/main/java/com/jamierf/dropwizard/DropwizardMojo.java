@@ -2,6 +2,7 @@ package com.jamierf.dropwizard;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.io.Files;
 import com.jamierf.dropwizard.config.DebConfiguration;
 import com.jamierf.dropwizard.config.JvmConfiguration;
 import com.jamierf.dropwizard.config.PathConfiguration;
@@ -9,6 +10,7 @@ import com.jamierf.dropwizard.config.UnixConfiguration;
 import com.jamierf.dropwizard.resource.EmbeddedResource;
 import com.jamierf.dropwizard.resource.FileResource;
 import com.jamierf.dropwizard.resource.Resource;
+import com.jamierf.dropwizard.util.LogConsole;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -19,6 +21,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.tools.tar.TarEntry;
+import org.vafer.jdeb.Console;
 import org.vafer.jdeb.PackagingException;
 
 import java.io.File;
@@ -62,7 +65,12 @@ public class DropwizardMojo extends AbstractMojo {
 
     @Parameter
     private File outputFile;
-    
+
+    @Parameter
+    private boolean validate = true;
+
+    private Console console = new LogConsole(getLog());
+
     public void execute() throws MojoExecutionException {
         setupMojoConfiguration();
 
@@ -70,6 +78,10 @@ public class DropwizardMojo extends AbstractMojo {
         final Map<String, Object> parameters = buildParameterMap();
 
         final File resourcesDir = extractResources(resources, parameters);
+        if (validate) {
+            validateApplicationConfiguration(resourcesDir);
+        }
+
         final File debFile = createPackage(resources, resourcesDir);
 
         attachArtifact(debFile, "deb");
@@ -118,28 +130,38 @@ public class DropwizardMojo extends AbstractMojo {
             return outputDir;
         }
         catch (IOException e) {
-            getLog().error(e);
             throw new MojoExecutionException("Failed to extract resources", e);
+        }
+    }
+
+    private void validateApplicationConfiguration(File resourcesDir) throws MojoExecutionException {
+        try {
+            final File tempDirectory = Files.createTempDir();
+            final File configFile = new File(resourcesDir, "/files" + path.getConfigFile());
+            final ApplicationValidator validator = new ApplicationValidator(artifactFile, console, tempDirectory);
+            validator.validateConfiguration(configFile);
+        }
+        catch (IOException | IllegalArgumentException | ClassNotFoundException e) {
+            throw new MojoExecutionException("Failed to validate configuration", e);
         }
     }
 
     private File createPackage(Collection<Resource> resources, File inputDir) throws MojoExecutionException {
         try {
-            new PackageBuilder(project, getLog()).createPackage(resources, inputDir, outputFile);
+            new PackageBuilder(project, console).createPackage(resources, inputDir, outputFile);
             return outputFile;
         }
         catch (PackagingException e) {
-            getLog().error("Failed to create Debian package", e);
             throw new MojoExecutionException("Failed to create Debian package", e);
         }
     }
 
     private void attachArtifact(File artifact, String type) {
         if (!type.equals(project.getArtifact().getType())) {
-            getLog().info(String.format("Attaching created %s package %s", type, artifact));
+            console.info(String.format("Attaching created %s package %s", type, artifact));
             helper.attachArtifact(project, type, artifact);
         } else {
-            getLog().info(String.format("Setting created %s package %s", type, artifact));
+            console.info(String.format("Setting created %s package %s", type, artifact));
             project.getArtifact().setFile(artifact);
         }
     }

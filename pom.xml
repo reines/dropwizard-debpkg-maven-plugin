@@ -49,6 +49,7 @@
         <maven-plugin-tools.version>3.3</maven-plugin-tools.version>
         <maven-shared.version>1.2</maven-shared.version>
 
+        <javassist.version>3.18.1-GA</javassist.version>
         <jdeb.version>1.1</jdeb.version>
         <guava.version>16.0.1</guava.version>
         <mustache.version>0.8.15</mustache.version>
@@ -57,6 +58,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${javassist.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
@@ -131,6 +137,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

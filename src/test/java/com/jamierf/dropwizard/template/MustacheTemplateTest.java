@@ -1,17 +1,23 @@
 package com.jamierf.dropwizard.template;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.io.Resources;
 import com.jamierf.dropwizard.template.mustache.MustacheTemplater;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class MustacheTemplateTest {
+
+    private static String getTemplate(String path) throws IOException {
+        return Resources.toString(MustacheTemplateTest.class.getResource(path), StandardCharsets.UTF_8);
+    }
 
     private Templater templater;
 
@@ -34,13 +40,15 @@ public class MustacheTemplateTest {
 
     @Test
     public void testBasicText() throws IOException {
-        final String result = templater.execute("hello world", "test", Collections.emptySet());
+        final String template = getTemplate("text.mustache");
+        final String result = templater.execute(template, "test", Collections.emptySet());
         assertEquals("hello world", result);
     }
 
     @Test
     public void testSimpleTemplate() throws IOException {
-        final String result = templater.execute("hello {{location}}", "test", ImmutableMap.of(
+        final String template = getTemplate("simple.mustache");
+        final String result = templater.execute(template, "test", ImmutableMap.of(
                 "location", "world"
         ));
         assertEquals("hello world", result);
@@ -48,7 +56,8 @@ public class MustacheTemplateTest {
 
     @Test
     public void testConditionalTemplate() throws IOException {
-        final String result = templater.execute("hello{{#location}} {{location}}{{/location}}", "test", ImmutableMap.of(
+        final String template = getTemplate("conditional.mustache");
+        final String result = templater.execute(template, "test", ImmutableMap.of(
                 "location", "world"
         ));
         assertEquals("hello world", result);
@@ -56,6 +65,7 @@ public class MustacheTemplateTest {
 
     @Test(expected = MissingParameterException.class)
     public void testMissingParameter() throws IOException {
-        templater.execute("hello {{location}}", "test", Collections.emptySet());
+        final String template = getTemplate("simple.mustache");
+        templater.execute(template, "test", Collections.emptySet());
     }
 }

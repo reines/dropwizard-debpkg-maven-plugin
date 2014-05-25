@@ -1,5 +1,5 @@
 #!/bin/sh
 
-stop "{{project.artifactId}}" >/dev/null 2>&1
+stop "{{{project.artifactId}}}" >/dev/null 2>&1
 
 exit 0

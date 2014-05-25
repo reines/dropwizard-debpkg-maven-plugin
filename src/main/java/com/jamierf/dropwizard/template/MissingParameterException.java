@@ -1,6 +1,6 @@
 package com.jamierf.dropwizard.template;
 
-public class MissingParameterException extends RuntimeException {
+public class MissingParameterException extends IllegalArgumentException {
 
     private final String name;
 

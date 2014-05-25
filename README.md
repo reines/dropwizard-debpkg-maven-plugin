@@ -52,16 +52,16 @@ Your Application configuration file should be a Mustache template, with paramete
 
 ### Sample Application configuration template
 
-    # {{project.name}} - {{project.description}}
-    # {{project.artifactId}} configuration
+    # {{{project.name}}} - {{{project.description}}}
+    # {{{project.artifactId}}} configuration
 
     server:
       applicationConnectors:
         - type: http
-          port: {{dw.httpPort}}
+          port: {{{dw.httpPort}}}
       adminConnectors:
         - type: http
-          port: {{dw.httpAdminPort}}
+          port: {{{dw.httpAdminPort}}}
 
     logging:
       level: INFO
@@ -69,7 +69,7 @@ Your Application configuration file should be a Mustache template, with paramete
       appenders:
         - type: console
         - type: file
-          currentLogFilename: "{{path.logDirectory}}/test.log"
+          currentLogFilename: "{{{path.logDirectory}}}/test.log"
           archive: false
 
 ## License

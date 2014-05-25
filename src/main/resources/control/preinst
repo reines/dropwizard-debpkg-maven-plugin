@@ -2,11 +2,11 @@
 
 case "$1" in
     install|upgrade)
-        if ! getent passwd "{{unix.user}}" >/dev/null; then
-            adduser --system --group "{{unix.user}}" > /dev/null
+        if ! getent passwd "{{{unix.user}}}" >/dev/null; then
+            adduser --system --group "{{{unix.user}}}" > /dev/null
         fi
 
-        mkdir -p "{{path.logDirectory}}" && chown -R "{{unix.user}}:{{unix.user}}" "{{path.logDirectory}}"
+        mkdir -p "{{{path.logDirectory}}}" && chown -R "{{{unix.user}}}:{{{unix.user}}}" "{{{path.logDirectory}}}"
     ;;
 
 esac

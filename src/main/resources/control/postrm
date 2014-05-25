@@ -2,11 +2,11 @@
 
 case "$1" in
     purge)
-        rm -rf "{{path.logDirectory}}"
-        deluser --remove-home --system "{{unix.user}}" >/dev/null 2>&1
+        rm -rf "{{{path.logDirectory}}}"
+        deluser --remove-home --system "{{{unix.user}}}" >/dev/null 2>&1
     ;;
     remove)
-        deluser --remove-home --system "{{unix.user}}" >/dev/null 2>&1
+        deluser --remove-home --system "{{{unix.user}}}" >/dev/null 2>&1
     ;;
 
 esac

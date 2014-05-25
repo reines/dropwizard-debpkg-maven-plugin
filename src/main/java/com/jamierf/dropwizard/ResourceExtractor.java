@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.resource.Resource;
-import com.jamierf.dropwizard.template.mustache.MustacheTemplater;
 import com.jamierf.dropwizard.template.Templater;
 import org.apache.maven.plugin.logging.Log;
 
@@ -15,7 +14,7 @@ import java.util.Map;
 
 public class ResourceExtractor {
 
-    private static final Templater TEMPLATER = new MustacheTemplater();
+    private static final Templater TEMPLATER = Templater.getDefault();
     private static final Collection<String> CONTROL_RESOURCES = ImmutableSet.of(
             "control", "preinst", "postinst", "prerm", "postrm"
     );
