@@ -26,6 +26,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.tools.tar.TarEntry;
+import org.codehaus.plexus.util.FileUtils;
 import org.vafer.jdeb.Console;
 import org.vafer.jdeb.PackagingException;
 
@@ -156,9 +157,14 @@ public class DropwizardMojo extends AbstractMojo {
             }
 
             final File tempDirectory = Files.createTempDir();
-            final File configFile = new File(resourcesDir, "/files" + path.getConfigFile());
-            final ApplicationValidator validator = new ApplicationValidator(artifactFile, console, tempDirectory);
-            validator.validateConfiguration(configFile);
+            try {
+                final File configFile = new File(resourcesDir, "/files" + path.getConfigFile());
+                final ApplicationValidator validator = new ApplicationValidator(artifactFile, console, tempDirectory);
+                validator.validateConfiguration(configFile);
+            }
+            finally {
+                FileUtils.forceDelete(tempDirectory);
+            }
         }
         catch (IOException | IllegalArgumentException | ClassNotFoundException e) {
             throw new MojoExecutionException("Failed to validate configuration", e);

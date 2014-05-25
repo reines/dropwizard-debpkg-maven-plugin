@@ -1,8 +1,8 @@
 # Dropwizard Debian Package
 
-A maven plugin for packaging your Dropwizard Application as a Debian package. Your Application is managed as an Upstart job, with the service name `${project.artifactId}`.
+A maven plugin for packaging your [Dropwizard Application](http://dropwizard.github.io/dropwizard) as a [Debian package](http://en.wikipedia.org/wiki/Deb_\(file_format\)). Your Application is managed as an [Upstart](http://upstart.ubuntu.com) job, with the service name `${project.artifactId}`.
 
-During packaging your configuration file is treated as a Mustache template, and configuration properties injected. Missing properties will cause the build to fail.
+During packaging your configuration file is treated as a [Mustache](http://mustache.github.io) template, and configuration properties injected. Missing properties will cause the build to fail.
 Assuming `validate` is set to true (the default), the configuration will be validated, and build failed if it fails.
 
 [![Build Status](https://api.travis-ci.org/reines/dropwizard-debpkg-maven-plugin.png)](https://travis-ci.org/reines/dropwizard-debpkg-maven-plugin)
@@ -74,6 +74,10 @@ Your Application configuration file should be a Mustache template, with paramete
         - type: file
           currentLogFilename: "{{{path.logDirectory}}}/test.log"
           archive: false
+
+## Configuration
+
+
 
 ## License
 
