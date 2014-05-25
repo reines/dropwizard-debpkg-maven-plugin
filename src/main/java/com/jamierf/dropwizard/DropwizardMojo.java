@@ -75,7 +75,7 @@ public class DropwizardMojo extends AbstractMojo {
     @Parameter
     private boolean validate = true;
 
-    private Console console = new LogConsole(getLog());
+    private Console log = new LogConsole(getLog());
 
     public void execute() throws MojoExecutionException {
         setupMojoConfiguration();
@@ -144,22 +144,22 @@ public class DropwizardMojo extends AbstractMojo {
         try {
             final Optional<Dependency> dropwizardDependency = Iterables.tryFind(project.getModel().getDependencies(), new DependencyFilter("io.dropwizard", "dropwizard-core"));
             if (!dropwizardDependency.isPresent()) {
-                console.warn("Failed to find Dropwizard dependency in project. Skipping configuration validation.");
+                log.warn("Failed to find Dropwizard dependency in project. Skipping configuration validation.");
                 return;
             }
 
             final ComparableVersion version = new ComparableVersion(dropwizardDependency.get().getVersion());
-            console.info(String.format("Detected Dropwizard %s, attempting to validate configuration.", version));
+            log.info(String.format("Detected Dropwizard %s, attempting to validate configuration.", version));
 
             if (!ApplicationValidator.canSupportVersion(version)) {
-                console.warn(String.format("The max Dropwizard version supported by this plugin is %s. If validation fails you can disable this step by setting `validation` to false.",
+                log.warn(String.format("The max Dropwizard version supported by this plugin is %s. If validation fails you can disable this step by setting `validation` to false.",
                         ApplicationValidator.MAX_SUPPORTED_VERSION));
             }
 
             final File tempDirectory = Files.createTempDir();
             try {
                 final File configFile = new File(resourcesDir, "/files" + path.getConfigFile());
-                final ApplicationValidator validator = new ApplicationValidator(artifactFile, console, tempDirectory);
+                final ApplicationValidator validator = new ApplicationValidator(artifactFile, log, tempDirectory);
                 validator.validateConfiguration(configFile);
             }
             finally {
@@ -173,7 +173,7 @@ public class DropwizardMojo extends AbstractMojo {
 
     private File createPackage(Collection<Resource> resources, File inputDir) throws MojoExecutionException {
         try {
-            new PackageBuilder(project, console).createPackage(resources, inputDir, outputFile);
+            new PackageBuilder(project, log).createPackage(resources, inputDir, outputFile);
             return outputFile;
         }
         catch (PackagingException e) {
@@ -183,10 +183,10 @@ public class DropwizardMojo extends AbstractMojo {
 
     private void attachArtifact(File artifact, String type) {
         if (!type.equals(project.getArtifact().getType())) {
-            console.info(String.format("Attaching created %s package %s", type, artifact));
+            log.info(String.format("Attaching created %s package %s", type, artifact));
             helper.attachArtifact(project, type, artifact);
         } else {
-            console.info(String.format("Setting created %s package %s", type, artifact));
+            log.info(String.format("Setting created %s package %s", type, artifact));
             project.getArtifact().setFile(artifact);
         }
     }

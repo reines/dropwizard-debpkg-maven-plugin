@@ -4,16 +4,15 @@ import com.google.common.collect.Collections2;
 import com.jamierf.dropwizard.resource.Resource;
 import com.jamierf.dropwizard.transforms.ResourceDataProducer;
 import org.apache.maven.project.MavenProject;
-import org.vafer.jdeb.Console;
-import org.vafer.jdeb.DataProducer;
-import org.vafer.jdeb.DebMaker;
-import org.vafer.jdeb.PackagingException;
+import org.vafer.jdeb.*;
 
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 
 public class PackageBuilder {
+
+    private static final Compression COMPRESSION = Compression.BZIP2;
 
     private final MavenProject project;
     private final Console log;
@@ -33,9 +32,8 @@ public class PackageBuilder {
         debMaker.setPackage(project.getArtifactId());
         debMaker.setDescription(project.getDescription());
         debMaker.setHomepage(project.getUrl());
-        debMaker.setCompression("gzip");
+        debMaker.setCompression(COMPRESSION.toString());
         debMaker.validate();
         debMaker.makeDeb();
     }
-    
 }
