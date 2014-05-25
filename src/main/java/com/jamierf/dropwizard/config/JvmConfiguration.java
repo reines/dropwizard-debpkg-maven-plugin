@@ -4,6 +4,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 public class JvmConfiguration {
 
+    // TODO: Ability to specify arguments rather than simply 'memory'
+
     @Parameter
     private String memory = "128m";
 

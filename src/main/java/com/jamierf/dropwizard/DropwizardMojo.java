@@ -14,6 +14,7 @@ import com.jamierf.dropwizard.resource.EmbeddedResource;
 import com.jamierf.dropwizard.resource.FileResource;
 import com.jamierf.dropwizard.resource.Resource;
 import com.jamierf.dropwizard.util.LogConsole;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
@@ -38,6 +39,9 @@ import java.util.Map;
 @SuppressWarnings("unused")
 @Mojo(name = "dwpackage", defaultPhase = LifecyclePhase.PACKAGE)
 public class DropwizardMojo extends AbstractMojo {
+
+    private static final String INPUT_ARTIFACT_TYPE = "jar";
+    private static final String OUTPUT_ARTIFACT_TYPE = "deb";
 
     @Component
     private MavenProjectHelper helper;
@@ -89,25 +93,30 @@ public class DropwizardMojo extends AbstractMojo {
         }
 
         final File debFile = createPackage(resources, resourcesDir);
-
-        attachArtifact(debFile, "deb");
+        attachArtifact(debFile);
     }
 
-    private void setupMojoConfiguration() {
+    private void setupMojoConfiguration() throws MojoExecutionException {
         deb.setProject(project);
         deb.setSession(session);
         path.setProject(project);
 
         if (artifactFile == null) {
-            // TODO: This probably isn't the best way to find the right artifact (what if the project has <packaging>deb</packaging>?)
-            artifactFile = project.getArtifact().getFile();
+            final Artifact artifact = project.getArtifact();
+            if (!INPUT_ARTIFACT_TYPE.equals(artifact.getType())) {
+                throw new MojoExecutionException(String.format("Artifact type %s not recognised, required %s", artifact.getType(), INPUT_ARTIFACT_TYPE));
+            }
+
+            artifactFile = artifact.getFile();
         }
 
         if (outputFile == null) {
-            outputFile = new File(project.getBuild().getDirectory(), String.format("%s-%s.deb", project.getArtifactId(), project.getVersion()));
+            final String outputFilename = String.format("%s-%s.deb", project.getArtifactId(), project.getVersion());
+            outputFile = new File(project.getBuild().getDirectory(), outputFilename);
         }
     }
 
+    // TODO: Allow the user to add to this
     private Collection<Resource> buildResourceList() {
         return ImmutableList.<Resource>builder()
                 .add(new FileResource(configTemplate, true, path.getConfigFile(), unix.getUser(), unix.getUser(), 0100600))
@@ -181,13 +190,8 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private void attachArtifact(File artifact, String type) {
-        if (!type.equals(project.getArtifact().getType())) {
-            log.info(String.format("Attaching created %s package %s", type, artifact));
-            helper.attachArtifact(project, type, artifact);
-        } else {
-            log.info(String.format("Setting created %s package %s", type, artifact));
-            project.getArtifact().setFile(artifact);
-        }
+    private void attachArtifact(File artifact) {
+        log.info(String.format("Attaching created %s package %s", OUTPUT_ARTIFACT_TYPE, artifact));
+        helper.attachArtifact(project, OUTPUT_ARTIFACT_TYPE, artifact);
     }
 }
