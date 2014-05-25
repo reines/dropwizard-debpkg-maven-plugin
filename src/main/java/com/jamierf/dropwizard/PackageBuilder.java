@@ -12,7 +12,7 @@ import java.util.Collections;
 
 public class PackageBuilder {
 
-    private static final Compression COMPRESSION = Compression.BZIP2;
+    private static final Compression COMPRESSION = Compression.GZIP;
 
     private final MavenProject project;
     private final Console log;
