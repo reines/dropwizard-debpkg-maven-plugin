@@ -10,16 +10,17 @@ public class DebConfiguration {
     private MavenProject project;
     private MavenSession session;
 
-    public void setProject(MavenProject project) {
+    public void setProject(final MavenProject project) {
         this.project = project;
     }
 
-    public void setSession(MavenSession session) {
+    public void setSession(final MavenSession session) {
         this.session = session;
     }
 
     @Parameter
-    private String maintainer = "Unspecified";
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String maintainer = "Unspecified";
 
     @SuppressWarnings("unused")
     public String getName() {

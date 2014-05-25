@@ -10,7 +10,7 @@ public abstract class Resource {
     private final String group;
     private final int mode;
 
-    public Resource(boolean filter, String target, String user, String group, int mode) {
+    public Resource(final boolean filter, final String target, final String user, final String group, final int mode) {
         this.target = target;
         this.user = user;
         this.group = group;

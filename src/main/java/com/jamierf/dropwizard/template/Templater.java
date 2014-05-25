@@ -10,9 +10,9 @@ public abstract class Templater {
         return new MustacheTemplater();
     }
 
-    public abstract void execute(Reader input, Writer output, String name, Object parameters) throws IOException;
+    public abstract void execute(final Reader input, final Writer output, final String name, final Object parameters);
 
-    public String execute(String input, String name, Object parameters) throws IOException {
+    public String execute(final String input, final String name, final Object parameters) throws IOException {
         if (input == null) {
             return null;
         }

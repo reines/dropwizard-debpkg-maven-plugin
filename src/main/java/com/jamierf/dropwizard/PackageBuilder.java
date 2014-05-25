@@ -17,12 +17,12 @@ public class PackageBuilder {
     private final MavenProject project;
     private final Console log;
 
-    public PackageBuilder(MavenProject project, Console log) {
+    public PackageBuilder(final MavenProject project, final Console log) {
         this.project = project;
         this.log = log;
     }
 
-    public void createPackage(Collection<Resource> resources, File inputDir, File debFile) throws PackagingException {
+    public void createPackage(final Collection<Resource> resources, final File inputDir, final File debFile) throws PackagingException {
         final Collection<DataProducer> dataProducers = Collections2.transform(resources, new ResourceDataProducer(inputDir));
         final DebMaker debMaker = new DebMaker(log, dataProducers, Collections.<DataProducer>emptySet());
 

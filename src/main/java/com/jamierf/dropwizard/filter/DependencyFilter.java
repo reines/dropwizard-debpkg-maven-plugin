@@ -8,13 +8,13 @@ public class DependencyFilter implements Predicate<Dependency> {
     private final StringMatchingFilter groupFilter;
     private final StringMatchingFilter artifactFilter;
 
-    public DependencyFilter(String groupId, String artifactId) {
+    public DependencyFilter(final String groupId, final String artifactId) {
         groupFilter = new StringMatchingFilter(groupId);
         artifactFilter = new StringMatchingFilter(artifactId);
     }
 
     @Override
-    public boolean apply(Dependency dependency) {
+    public boolean apply(final Dependency dependency) {
         return dependency != null
                 && groupFilter.apply(dependency.getGroupId())
                 && artifactFilter.apply(dependency.getArtifactId());

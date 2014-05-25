@@ -11,7 +11,7 @@ public class EmbeddedResource extends Resource {
 
     private final URL resource;
 
-    public EmbeddedResource(String path, boolean filter, String target, String user, String group, int mode) {
+    public EmbeddedResource(final String path, final boolean filter, final String target, final String user, final String group, final int mode) {
         super(filter, target, user, group, mode);
 
         this.resource = checkNotNull(Resource.class.getResource(path));

@@ -5,7 +5,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class UnixConfiguration {
 
     @Parameter
-    private String user = "dropwizard";
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String user = "dropwizard";
 
     @SuppressWarnings("unused")
     public String getUser() {

@@ -14,7 +14,7 @@ public class ResourceDataProducer implements Function<Resource, DataProducer> {
     
     private final File inputDir;
 
-    public ResourceDataProducer(File inputDir) {
+    public ResourceDataProducer(final File inputDir) {
         this.inputDir = inputDir;
     }
 

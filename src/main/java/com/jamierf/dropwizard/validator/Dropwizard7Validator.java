@@ -17,7 +17,7 @@ public class Dropwizard7Validator implements ConfigurationValidator {
 
     private static final Templater TEMPLATER = Templater.getDefault();
 
-    private static String loadValidateMethod(String configClass, String configFile) throws IOException {
+    private static String loadValidateMethod(final String configClass, final String configFile) throws IOException {
         final String template = Resources.toString(ApplicationValidator.class.getResource("/validate.java"), StandardCharsets.UTF_8);
         return TEMPLATER.execute(template, "validate", ImmutableMap.of(
                 "configClass", configClass,
@@ -29,21 +29,21 @@ public class Dropwizard7Validator implements ConfigurationValidator {
     private final Console log;
     private final File tempDirectory;
 
-    public Dropwizard7Validator(ClassLoader classLoader, Console log, File tempDirectory) {
+    public Dropwizard7Validator(final ClassLoader classLoader, final Console log, final File tempDirectory) {
         this.classLoader = classLoader;
         this.log = log;
         this.tempDirectory = tempDirectory;
     }
 
     @Override
-    public void validate(Class<?> mainClass, File configFile) throws IOException {
+    public void validate(final Class<?> mainClass, final File configFile) {
         final ParameterizedType superClass = (ParameterizedType) mainClass.getGenericSuperclass();
 
         final Class<?> configClass = (Class<?>) superClass.getActualTypeArguments()[0];
         validateConfiguration(configClass, configFile);
     }
 
-    private void validateConfiguration(Class<?> configClass, File configFile) throws IOException {
+    private void validateConfiguration(final Class<?> configClass, final File configFile) {
         try {
             final ClassPool pool = new ClassPool(false);
             pool.appendClassPath(new LoaderClassPath(classLoader));

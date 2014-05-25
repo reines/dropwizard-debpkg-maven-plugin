@@ -22,12 +22,12 @@ public class ResourceExtractor {
     private final Map<String, Object> parameters;
     private final Log log;
 
-    public ResourceExtractor(Map<String, Object> parameters, Log log) {
+    public ResourceExtractor(final Map<String, Object> parameters, final Log log) {
         this.parameters = parameters;
         this.log = log;
     }
 
-    public void extractResources(Collection<Resource> files, File destinationDir) throws IOException {
+    public void extractResources(final Collection<Resource> files, final File destinationDir) throws IOException {
         // Extract/filter Debian package control files
         // This is done before the files part so that control files can be overridden
         for (String file : CONTROL_RESOURCES) {
@@ -49,7 +49,7 @@ public class ResourceExtractor {
         }
     }
 
-    private void extractResource(ByteSource source, File target, boolean filter) throws IOException {
+    private void extractResource(final ByteSource source, final File target, final boolean filter) throws IOException {
         if (filter) {
             filterResource(source, target);
         }
@@ -58,13 +58,13 @@ public class ResourceExtractor {
         }
     }
     
-    private void copyResource(ByteSource source, File target) throws IOException {
+    private void copyResource(final ByteSource source, final File target) throws IOException {
         try (final OutputStream out = createFile(target)) {
             source.copyTo(out);
         }
     }
 
-    private void filterResource(ByteSource source, File target) throws IOException {
+    private void filterResource(final ByteSource source, final File target) throws IOException {
         try (final InputStreamReader input = new InputStreamReader(source.openStream())) {
             try (final Writer output = new OutputStreamWriter(createFile(target))) {
                 log.debug(String.format("Extracting %s to %s", source, target));
@@ -73,7 +73,7 @@ public class ResourceExtractor {
         }
     }
 
-    private OutputStream createFile(File file) throws IOException {
+    private OutputStream createFile(final File file) throws IOException {
         if (file.getParentFile().mkdirs()) {
             log.debug(String.format("Created resource directory for: %s", file));
         }

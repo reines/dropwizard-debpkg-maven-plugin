@@ -17,7 +17,7 @@ public class ApplicationValidator {
     private static final String MANIFEST_MAIN_CLASS_ATTRIBUTE = "Main-Class";
     public static final ComparableVersion MAX_SUPPORTED_VERSION = new ComparableVersion("0.7.0");
 
-    public static boolean canSupportVersion(ComparableVersion version) {
+    public static boolean canSupportVersion(final ComparableVersion version) {
         // version is <= the max supported
         return version.compareTo(MAX_SUPPORTED_VERSION) < 1;
     }
@@ -27,7 +27,8 @@ public class ApplicationValidator {
     private final File tempDirectory;
     private final ClassLoader classLoader;
 
-    public ApplicationValidator(File artifactFile, Console log, File tempDirectory) throws MalformedURLException {
+    public ApplicationValidator(final File artifactFile, final Console log,
+                                final File tempDirectory) throws MalformedURLException {
         this.artifactFile = artifactFile;
         this.log = log;
         this.tempDirectory = tempDirectory;
@@ -45,7 +46,7 @@ public class ApplicationValidator {
         return mainClassName;
     }
 
-    public void validateConfiguration(File configFile) throws IOException, ClassNotFoundException {
+    public void validateConfiguration(final File configFile) throws IOException, ClassNotFoundException {
         final Class<?> mainClass = classLoader.loadClass(getMainClassName());
 
         final ConfigurationValidator validator = new Dropwizard7Validator(classLoader, log, tempDirectory);

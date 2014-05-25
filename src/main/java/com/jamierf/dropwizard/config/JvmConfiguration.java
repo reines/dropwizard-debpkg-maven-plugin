@@ -7,13 +7,16 @@ public class JvmConfiguration {
     // TODO: Ability to specify arguments rather than simply 'memory'
 
     @Parameter
-    private String memory = "128m";
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String memory = "128m";
 
     @Parameter
-    private String packageName = "openjdk-7-jdk";
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String packageName = "openjdk-7-jdk";
 
     @Parameter
-    private String packageVersion = null;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String packageVersion = null;
 
     @SuppressWarnings("unused")
     public String getMemory() {

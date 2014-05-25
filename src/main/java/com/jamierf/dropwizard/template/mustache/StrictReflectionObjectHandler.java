@@ -9,7 +9,7 @@ import java.util.List;
 
 public class StrictReflectionObjectHandler extends ReflectionObjectHandler {
     @Override
-    protected MissingWrapper createMissingWrapper(String name, List<Guard> guards) {
+    protected MissingWrapper createMissingWrapper(final String name, final List<Guard> guards) {
         throw new MissingParameterException(name);
     }
 }

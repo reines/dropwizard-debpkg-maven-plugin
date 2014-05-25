@@ -19,7 +19,7 @@ public class MustacheTemplater extends Templater {
     }
 
     @Override
-    public void execute(Reader input, Writer output, String name, Object parameters) {
+    public void execute(final Reader input, final Writer output, final String name, final Object parameters) {
         try {
             final Mustache template = MUSTACHE.compile(input, name);
             template.execute(output, parameters);

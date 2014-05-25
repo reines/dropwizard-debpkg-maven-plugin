@@ -34,9 +34,9 @@ import org.vafer.jdeb.PackagingException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
-@SuppressWarnings("unused")
 @Mojo(name = "dwpackage", defaultPhase = LifecyclePhase.PACKAGE)
 public class DropwizardMojo extends AbstractMojo {
 
@@ -48,35 +48,35 @@ public class DropwizardMojo extends AbstractMojo {
 
     private static final String WORKING_DIRECTORY_NAME = "dropwizard-deb-package";
 
-    // Octal integers
+    @SuppressWarnings("OctalInteger")
     private static final int UNIX_MODE_USER_ONLY = 0100600;
 
     @Component
-    private MavenProjectHelper helper;
+    private final MavenProjectHelper helper = null;
 
     @Component
-    private MavenProject project;
+    private final MavenProject project = null;
 
     @Component
-    private MavenSession session;
+    private final MavenSession session = null;
     
     @Parameter
-    private DebConfiguration deb = new DebConfiguration();
+    private final DebConfiguration deb = new DebConfiguration();
 
     @Parameter
-    private JvmConfiguration jvm = new JvmConfiguration();
+    private final JvmConfiguration jvm = new JvmConfiguration();
 
     @Parameter
-    private UnixConfiguration unix = new UnixConfiguration();
+    private final UnixConfiguration unix = new UnixConfiguration();
 
     @Parameter
-    private PathConfiguration path = new PathConfiguration();
+    private final PathConfiguration path = new PathConfiguration();
 
     @Parameter
-    private Map<String, String> dropwizard;
+    private final Map<String, String> dropwizard = Collections.emptyMap();
 
     @Parameter(required = true)
-    private File configTemplate;
+    private final File configTemplate = null;
 
     @Parameter
     private File artifactFile;
@@ -84,10 +84,11 @@ public class DropwizardMojo extends AbstractMojo {
     @Parameter
     private File outputFile;
 
-    @Parameter(defaultValue = "true")
-    private boolean validate;
+    @Parameter
+    @SuppressWarnings("FieldCanBeLocal")
+    private boolean validate = true;
 
-    private Console log = new LogConsole(getLog());
+    private final Console log = new LogConsole(getLog());
 
     public void execute() throws MojoExecutionException {
         setupMojoConfiguration();
@@ -96,6 +97,7 @@ public class DropwizardMojo extends AbstractMojo {
         final Map<String, Object> parameters = buildParameterMap();
 
         final File resourcesDir = extractResources(resources, parameters);
+
         if (validate) {
             validateApplicationConfiguration(resourcesDir);
         }
@@ -112,7 +114,8 @@ public class DropwizardMojo extends AbstractMojo {
         if (artifactFile == null) {
             final Artifact artifact = project.getArtifact();
             if (!INPUT_ARTIFACT_TYPE.equals(artifact.getType())) {
-                throw new MojoExecutionException(String.format("Artifact type %s not recognised, required %s", artifact.getType(), INPUT_ARTIFACT_TYPE));
+                throw new MojoExecutionException(String.format("Artifact type %s not recognised, required %s",
+                        artifact.getType(), INPUT_ARTIFACT_TYPE));
             }
 
             artifactFile = artifact.getFile();
@@ -146,7 +149,7 @@ public class DropwizardMojo extends AbstractMojo {
                 .build();
     }
 
-    private File extractResources(Collection<Resource> resources, Map<String, Object> parameters) throws MojoExecutionException {
+    private File extractResources(final Collection<Resource> resources, final Map<String, Object> parameters) throws MojoExecutionException {
         try {
             final File outputDir = new File(project.getBuild().getDirectory(), WORKING_DIRECTORY_NAME);
             new ResourceExtractor(parameters, getLog()).extractResources(resources, outputDir);
@@ -157,9 +160,10 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private void validateApplicationConfiguration(File resourcesDir) throws MojoExecutionException {
+    private void validateApplicationConfiguration(final File resourcesDir) throws MojoExecutionException {
         try {
-            final Optional<Dependency> dropwizardDependency = Iterables.tryFind(project.getModel().getDependencies(), new DependencyFilter(DROPWIZARD_GROUP_ID, DROPWIZARD_ARTIFACT_ID));
+            final Optional<Dependency> dropwizardDependency = Iterables.tryFind(project.getModel().getDependencies(),
+                    new DependencyFilter(DROPWIZARD_GROUP_ID, DROPWIZARD_ARTIFACT_ID));
             if (!dropwizardDependency.isPresent()) {
                 log.warn("Failed to find Dropwizard dependency in project. Skipping configuration validation.");
                 return;
@@ -169,7 +173,9 @@ public class DropwizardMojo extends AbstractMojo {
             log.info(String.format("Detected Dropwizard %s, attempting to validate configuration.", version));
 
             if (!ApplicationValidator.canSupportVersion(version)) {
-                log.warn(String.format("The latest Dropwizard version supported by this plugin is %s. We will attempt validation anyway, but if it fails you can disable this step by setting `validation` to false.",
+                log.warn(String.format("The latest Dropwizard version supported by this plugin is %s." +
+                                "We will attempt validation anyway, but if it fails you can disable this" +
+                                "step by setting `validation` to false.",
                         ApplicationValidator.MAX_SUPPORTED_VERSION));
             }
 
@@ -188,7 +194,7 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private File createPackage(Collection<Resource> resources, File inputDir) throws MojoExecutionException {
+    private File createPackage(final Collection<Resource> resources, final File inputDir) throws MojoExecutionException {
         try {
             new PackageBuilder(project, log).createPackage(resources, inputDir, outputFile);
             return outputFile;
@@ -198,7 +204,7 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private void attachArtifact(File artifactFile) {
+    private void attachArtifact(final File artifactFile) {
         log.info(String.format("Attaching created %s package %s", OUTPUT_ARTIFACT_TYPE, artifactFile));
         helper.attachArtifact(project, OUTPUT_ARTIFACT_TYPE, artifactFile);
     }

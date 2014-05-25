@@ -6,12 +6,12 @@ public class StringMatchingFilter implements Predicate<String> {
 
     private final String expected;
 
-    public StringMatchingFilter(String expected) {
+    public StringMatchingFilter(final String expected) {
         this.expected = expected;
     }
 
     @Override
-    public boolean apply(String actual) {
+    public boolean apply(final String actual) {
         return actual != null && expected.equals(actual);
     }
 }
