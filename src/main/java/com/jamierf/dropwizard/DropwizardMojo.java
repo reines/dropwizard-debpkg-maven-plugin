@@ -5,10 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.io.Files;
-import com.jamierf.dropwizard.config.DebConfiguration;
-import com.jamierf.dropwizard.config.JvmConfiguration;
-import com.jamierf.dropwizard.config.PathConfiguration;
-import com.jamierf.dropwizard.config.UnixConfiguration;
+import com.jamierf.dropwizard.config.*;
 import com.jamierf.dropwizard.filter.DependencyFilter;
 import com.jamierf.dropwizard.resource.EmbeddedResource;
 import com.jamierf.dropwizard.resource.FileResource;
@@ -83,6 +80,9 @@ public class DropwizardMojo extends AbstractMojo {
 
     @Parameter
     private File outputFile;
+
+    @Parameter
+    private final GpgConfiguration gpg = null;
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
@@ -196,7 +196,7 @@ public class DropwizardMojo extends AbstractMojo {
 
     private File createPackage(final Collection<Resource> resources, final File inputDir) throws MojoExecutionException {
         try {
-            new PackageBuilder(project, log).createPackage(resources, inputDir, outputFile);
+            new PackageBuilder(project, log, Optional.fromNullable(gpg)).createPackage(resources, inputDir, outputFile);
             return outputFile;
         }
         catch (PackagingException e) {
