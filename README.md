@@ -73,11 +73,11 @@ Below is the default configuration. The only required parameter is the `configTe
         <unix>
             <user>dropwizard</user><!-- Optional: The unix user to create and run as. -->
         </unix>
-        <gpg><!-- Optional: Not present by default. If present, all children are required. -->
-            <alias /><!-- Required: Alias of GPG key to sign with. -->
-            <keyring /><!-- Required: Path to GPG keyring file. -->
-            <passphrase /><!-- Required: Passphrase of GPG keyring. -->
-        </gpg>
+        <pgp><!-- Optional: Not present by default. If present, all children are required. -->
+            <alias /><!-- Required: Alias of PGP key to sign with. -->
+            <keyring /><!-- Required: Path to PGP keyring file. -->
+            <passphrase /><!-- Required: Pass phrase of PGP keyring. -->
+        </pgp>
         <path>
             <jarFile>/usr/share/java/${project.artifactId}.jar</jarFile><!-- Optional: Path to the service jar, once deployed. -->
             <configFile>/etc/${project.artifactId}.yml</configFile><!-- Optional: Path to your service configuration, once deployed. -->

@@ -4,7 +4,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 
-public class GpgConfiguration {
+public class PgpConfiguration {
 
     @Parameter
     private final String alias = null;

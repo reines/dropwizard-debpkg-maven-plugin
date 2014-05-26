@@ -2,7 +2,7 @@ package com.jamierf.dropwizard;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Collections2;
-import com.jamierf.dropwizard.config.GpgConfiguration;
+import com.jamierf.dropwizard.config.PgpConfiguration;
 import com.jamierf.dropwizard.resource.Resource;
 import com.jamierf.dropwizard.transforms.ResourceDataProducer;
 import org.apache.maven.project.MavenProject;
@@ -18,9 +18,9 @@ public class PackageBuilder {
 
     private final MavenProject project;
     private final Console log;
-    private final Optional<GpgConfiguration> gpgConfiguration;
+    private final Optional<PgpConfiguration> gpgConfiguration;
 
-    public PackageBuilder(final MavenProject project, final Console log, final Optional<GpgConfiguration> gpgConfiguration) {
+    public PackageBuilder(final MavenProject project, final Console log, final Optional<PgpConfiguration> gpgConfiguration) {
         this.project = project;
         this.log = log;
         this.gpgConfiguration = gpgConfiguration;
@@ -39,7 +39,7 @@ public class PackageBuilder {
         debMaker.setCompression(COMPRESSION.toString());
 
         if (gpgConfiguration.isPresent()) {
-            final GpgConfiguration gpg = gpgConfiguration.get();
+            final PgpConfiguration gpg = gpgConfiguration.get();
             log.info(String.format("Signing package with GPG key: %s", gpg.getAlias()));
 
             debMaker.setSignPackage(true);

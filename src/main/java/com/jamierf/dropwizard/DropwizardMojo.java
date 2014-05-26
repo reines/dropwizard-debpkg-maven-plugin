@@ -82,7 +82,7 @@ public class DropwizardMojo extends AbstractMojo {
     private File outputFile;
 
     @Parameter
-    private final GpgConfiguration gpg = null;
+    private final PgpConfiguration pgp = null;
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
@@ -196,7 +196,7 @@ public class DropwizardMojo extends AbstractMojo {
 
     private File createPackage(final Collection<Resource> resources, final File inputDir) throws MojoExecutionException {
         try {
-            new PackageBuilder(project, log, Optional.fromNullable(gpg)).createPackage(resources, inputDir, outputFile);
+            new PackageBuilder(project, log, Optional.fromNullable(pgp)).createPackage(resources, inputDir, outputFile);
             return outputFile;
         }
         catch (PackagingException e) {
