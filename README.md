@@ -73,6 +73,11 @@ Below is the default configuration. The only required parameter is the `configTe
         <unix>
             <user>dropwizard</user><!-- Optional: The unix user to create and run as. -->
         </unix>
+        <gpg><!-- Optional: Not present by default. If present, all children are required. -->
+            <alias>E9223294</alias><!-- Required: Alias of GPG key to sign with. -->
+            <keyring>/home/jfurness/gpg.asc</keyring><!-- Required: Path to GPG keyring file. -->
+            <passphrase>supersecret</passphrase><!-- Required: Passphrase of GPG keyring. -->
+        </gpg>
         <path>
             <jarFile>/usr/share/java/${project.artifactId}.jar</jarFile><!-- Optional: Path to the service jar, once deployed. -->
             <configFile>/etc/${project.artifactId}.yml</configFile><!-- Optional: Path to your service configuration, once deployed. -->
