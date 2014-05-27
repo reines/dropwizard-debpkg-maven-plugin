@@ -4,7 +4,6 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
-import com.google.common.io.Files;
 import com.jamierf.dropwizard.config.*;
 import com.jamierf.dropwizard.filter.DependencyFilter;
 import com.jamierf.dropwizard.resource.EmbeddedResource;
@@ -24,7 +23,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.tools.tar.TarEntry;
-import org.codehaus.plexus.util.FileUtils;
 import org.vafer.jdeb.Console;
 import org.vafer.jdeb.PackagingException;
 
@@ -172,22 +170,9 @@ public class DropwizardMojo extends AbstractMojo {
             final ComparableVersion version = new ComparableVersion(dropwizardDependency.get().getVersion());
             log.info(String.format("Detected Dropwizard %s, attempting to validate configuration.", version));
 
-            if (!ApplicationValidator.canSupportVersion(version)) {
-                log.warn(String.format("The latest Dropwizard version supported by this plugin is %s." +
-                                "We will attempt validation anyway, but if it fails you can disable this" +
-                                "step by setting `validation` to false.",
-                        ApplicationValidator.MAX_SUPPORTED_VERSION));
-            }
-
-            final File tempDirectory = Files.createTempDir();
-            try {
-                final File configFile = new File(resourcesDir, "/files" + path.getConfigFile());
-                final ApplicationValidator validator = new ApplicationValidator(artifactFile, log, tempDirectory);
-                validator.validateConfiguration(configFile);
-            }
-            finally {
-                FileUtils.forceDelete(tempDirectory);
-            }
+            final File configFile = new File(resourcesDir, "/files" + path.getConfigFile());
+            final ApplicationValidator validator = new ApplicationValidator(artifactFile, log);
+            validator.validateConfiguration(configFile);
         }
         catch (IOException | IllegalArgumentException | ClassNotFoundException e) {
             throw new MojoExecutionException("Failed to validate configuration", e);
