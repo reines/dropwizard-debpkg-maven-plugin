@@ -18,7 +18,11 @@ public class PathConfiguration {
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
     private final String configFile = null;
-    
+
+    @Parameter
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String jvmConfigFile = null;
+
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
     private final String logDirectory = null;
@@ -35,6 +39,10 @@ public class PathConfiguration {
     @SuppressWarnings("unused")
     public String getConfigFile() {
         return configFile == null ? String.format("/etc/%s.yml", project.getArtifactId()) : configFile;
+    }
+
+    public String getJvmConfigFile() {
+        return jvmConfigFile == null ? String.format("/etc/%s.jvm.conf", project.getArtifactId()) : jvmConfigFile;
     }
 
     @SuppressWarnings("unused")
