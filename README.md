@@ -1,11 +1,18 @@
 # Dropwizard Debian Package
+[![Build Status](https://api.travis-ci.org/reines/dropwizard-debpkg-maven-plugin.png)](https://travis-ci.org/reines/dropwizard-debpkg-maven-plugin)
 
 A maven plugin for packaging your [Dropwizard Application](http://dropwizard.github.io/dropwizard) as a [Debian package](http://en.wikipedia.org/wiki/Deb_\(file_format\)). Your Application is managed as an [Upstart](http://upstart.ubuntu.com) job, with the service name `${project.artifactId}`.
 
 During packaging your configuration file is treated as a [Mustache](http://mustache.github.io) template, and configuration properties injected. Parameters are exposes prefixed with both `dw` and `dropwizard`. Missing properties will cause the build to fail.
 Assuming `validate` is set to true (the default), the configuration will be validated, and build failed if it fails.
 
-[![Build Status](https://api.travis-ci.org/reines/dropwizard-debpkg-maven-plugin.png)](https://travis-ci.org/reines/dropwizard-debpkg-maven-plugin)
+* Application packaged as a self contained Debian package.
+* Ensures a JRE/JDK is installed through Debian package management.
+* Generates application configuration from a Mustache template, allowing injecting values based on maven profiles.
+* Validates generated application configuration against the application itself. An invalid configuration file will cause the build to fail.
+* Once installed your application is managed as an Upstart job.
+* Sensible default JVM options.
+* `stdout`, `stderr` and GC logging enabled by default.
 
 ## Usage
 
