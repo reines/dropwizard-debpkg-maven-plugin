@@ -101,15 +101,11 @@ Below is the default configuration. The only required parameter is the `configTe
         <validate>true</validate><!-- Optional: Enable validation of your service configuration at package time. -->
     </configuration>
 
-## License
-
-Released under the [Apache 2.0 License](LICENSE).
-
 ## Change Log
 
-### 0.3
+### 0.3 - _Upcoming_
 
-* Added support for including arbitrary files in the package using the `<files />` configuration parameter.
+* Added support for including arbitrary files in the package using the `<files />` configuration parameter. (#4)
 * Fixed configuration parameters not being respected properly.
 * No longer delete the unix user on package uninstall, in-case we're using a user that we didn't create ourselves.
 * No longer force the use of a 64-bit JVM.
@@ -117,9 +113,13 @@ Released under the [Apache 2.0 License](LICENSE).
 ### 0.2 - 4 June 2014
 
 * Added JVM configuration with sensible defaults and GC logging.
-* Replaced configuration validation implementation to avoid use of bytecode manipulation.
-* Added ability to PGP encrypt packages using the `<pgp />` configuration parameter.
+* Replaced configuration validation implementation to avoid use of bytecode manipulation. (#9)
+* Added ability to PGP encrypt packages using the `<pgp />` configuration parameter. (#7)
 
 ### 0.1 - 26 May 2014
 
-* Initial release
+* Initial release.
+
+## License
+
+Released under the [Apache 2.0 License](LICENSE).
