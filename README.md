@@ -75,7 +75,7 @@ Below is the default configuration. The only required parameter is the `configTe
         <jvm>
             <memory>128m</memory><!-- Optional: JVM heap size to allocate, once deployed. -->
             <packageName>openjdk-7-jdk</packageName><!-- Optional: JRE package to ensure installed as part of deployment. -->
-            <packageVersion>latest</packageVersion><!-- Optional: Version of JRE package to require, defaults to the latest. -->
+            <packageVersion>any</packageVersion><!-- Optional: Version of JRE package to require, defaults to the latest. -->
         </jvm>
         <unix>
             <user>dropwizard</user><!-- Optional: The unix user to create and run as. -->
