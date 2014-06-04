@@ -4,7 +4,6 @@ case "$1" in
     purge)
         rm -rf "{{{path.logDirectory}}}"
     ;;
-
 esac
 
 exit 0
