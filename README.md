@@ -88,7 +88,7 @@ Below is the default configuration. The only required parameter is the `configTe
         <dropwizard /><!-- Optional: Map of parameters to substitute in to your configuration template on packaging. -->
         <configTemplate /><!-- Required: Path to your service configuration template. -->
         <artifactFile>${project.build.directory}/${project.artifactId}-${project.version}.jar</artifactFile><!-- Optional: Path to the service jar to package. -->
-        <artifactFile>${project.build.directory}/${project.artifactId}-${project.version}.deb</artifactFile><!-- Optional: The path to output the Debian package to. -->
+        <outputFile>${project.build.directory}/${project.artifactId}-${project.version}.deb</outputFile><!-- Optional: The path to output the Debian package to. -->
         <validate>true</validate><!-- Optional: Enable validation of your service configuration at package time. -->
     </configuration>
 
