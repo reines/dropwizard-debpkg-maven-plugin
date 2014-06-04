@@ -8,15 +8,15 @@ public class JvmConfiguration {
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String memory = "128m";
+    private String memory = "128m";
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String packageName = "openjdk-7-jdk";
+    private String packageName = "openjdk-7-jdk";
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String packageVersion = null;
+    private String packageVersion = null;
 
     @SuppressWarnings("unused")
     public String getMemory() {

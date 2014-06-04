@@ -47,31 +47,31 @@ public class DropwizardMojo extends AbstractMojo {
     private static final int UNIX_MODE_USER_ONLY = 0100600;
 
     @Component
-    private final MavenProjectHelper helper = null;
+    private MavenProjectHelper helper = null;
 
     @Component
-    private final MavenProject project = null;
+    private MavenProject project = null;
 
     @Component
-    private final MavenSession session = null;
+    private MavenSession session = null;
     
     @Parameter
-    private final DebConfiguration deb = new DebConfiguration();
+    private DebConfiguration deb = new DebConfiguration();
 
     @Parameter
-    private final JvmConfiguration jvm = new JvmConfiguration();
+    private JvmConfiguration jvm = new JvmConfiguration();
 
     @Parameter
-    private final UnixConfiguration unix = new UnixConfiguration();
+    private UnixConfiguration unix = new UnixConfiguration();
 
     @Parameter
-    private final PathConfiguration path = new PathConfiguration();
+    private PathConfiguration path = new PathConfiguration();
 
     @Parameter
-    private final Map<String, String> dropwizard = Collections.emptyMap();
+    private Map<String, String> dropwizard = Collections.emptyMap();
 
     @Parameter(required = true)
-    private final File configTemplate = null;
+    private File configTemplate = null;
 
     @Parameter
     private File artifactFile;
@@ -80,7 +80,7 @@ public class DropwizardMojo extends AbstractMojo {
     private File outputFile;
 
     @Parameter
-    private final PgpConfiguration pgp = null;
+    private PgpConfiguration pgp = null;
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")

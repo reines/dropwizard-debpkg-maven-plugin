@@ -20,7 +20,7 @@ public class DebConfiguration {
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String maintainer = "Unspecified";
+    private String maintainer = "Unspecified";
 
     @SuppressWarnings("unused")
     public String getName() {

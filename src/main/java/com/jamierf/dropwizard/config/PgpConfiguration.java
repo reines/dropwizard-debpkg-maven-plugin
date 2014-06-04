@@ -7,13 +7,13 @@ import java.io.File;
 public class PgpConfiguration {
 
     @Parameter
-    private final String alias = null;
+    private String alias = null;
 
     @Parameter
-    private final File keyring = null;
+    private File keyring = null;
 
     @Parameter
-    private final String passphrase = null;
+    private String passphrase = null;
 
     @SuppressWarnings("unused")
     public String getAlias() {

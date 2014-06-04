@@ -6,7 +6,7 @@ public class UnixConfiguration {
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String user = "dropwizard";
+    private String user = "dropwizard";
 
     @SuppressWarnings("unused")
     public String getUser() {

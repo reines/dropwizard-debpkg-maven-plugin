@@ -13,23 +13,23 @@ public class PathConfiguration {
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String jarFile = null;
+    private String jarFile = null;
     
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String configFile = null;
+    private String configFile = null;
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String jvmConfigFile = null;
+    private String jvmConfigFile = null;
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String logDirectory = null;
+    private String logDirectory = null;
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private final String upstartFile = null;
+    private String upstartFile = null;
 
     @SuppressWarnings("unused")
     public String getJarFile() {
