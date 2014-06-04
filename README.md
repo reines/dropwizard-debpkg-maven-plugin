@@ -85,6 +85,15 @@ Below is the default configuration. The only required parameter is the `configTe
             <logDirectory>/var/log/${project.artifactId}</logDirectory><!-- Optional: Directory for service logs, once deployed. -->
             <upstartFile>/etc/init/${project.artifactId}.conf</upstartFile><!-- Optional: Path to the service upstart configuration, once deployed. -->
         </path>
+        <files><!-- Optional: Empty by default. -->
+            <file>
+                <source /><!-- Required: Path to the resource file. -->
+                <target /><!-- Required: Path to the resource, once deployed. -->
+                <filter>true</filter><!-- Optional: If this resource should be treated as a template. -->
+                <user>${unix.user}</user><!-- Optional: The user the resource should be owned by. -->
+                <mode>0600</mode><!-- Optional: The filemode for this resource. -->
+            </file>
+        </files>
         <dropwizard /><!-- Optional: Map of parameters to substitute in to your configuration template on packaging. -->
         <configTemplate /><!-- Required: Path to your service configuration template. -->
         <artifactFile>${project.build.directory}/${project.artifactId}-${project.version}.jar</artifactFile><!-- Optional: Path to the service jar to package. -->

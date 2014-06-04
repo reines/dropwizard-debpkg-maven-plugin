@@ -50,6 +50,7 @@ public class ResourceExtractor {
     }
 
     private void extractResource(final ByteSource source, final File target, final boolean filter) throws IOException {
+        log.debug(String.format("Extracting %s to %s", source, target));
         if (filter) {
             filterResource(source, target);
         }
@@ -57,7 +58,7 @@ public class ResourceExtractor {
             copyResource(source, target);
         }
     }
-    
+
     private void copyResource(final ByteSource source, final File target) throws IOException {
         try (final OutputStream out = createFile(target)) {
             source.copyTo(out);
@@ -67,7 +68,6 @@ public class ResourceExtractor {
     private void filterResource(final ByteSource source, final File target) throws IOException {
         try (final InputStreamReader input = new InputStreamReader(source.openStream())) {
             try (final Writer output = new OutputStreamWriter(createFile(target))) {
-                log.debug(String.format("Extracting %s to %s", source, target));
                 TEMPLATER.execute(input, output, target.getAbsolutePath(), parameters);
             }
         }

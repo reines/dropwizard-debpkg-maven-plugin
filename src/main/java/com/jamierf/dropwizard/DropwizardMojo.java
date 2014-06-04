@@ -1,6 +1,7 @@
 package com.jamierf.dropwizard;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -9,6 +10,7 @@ import com.jamierf.dropwizard.filter.DependencyFilter;
 import com.jamierf.dropwizard.resource.EmbeddedResource;
 import com.jamierf.dropwizard.resource.FileResource;
 import com.jamierf.dropwizard.resource.Resource;
+import com.jamierf.dropwizard.transforms.ResourceProducer;
 import com.jamierf.dropwizard.util.LogConsole;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.versioning.ComparableVersion;
@@ -30,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Mojo(name = "dwpackage", defaultPhase = LifecyclePhase.PACKAGE)
@@ -86,6 +89,9 @@ public class DropwizardMojo extends AbstractMojo {
     @SuppressWarnings("FieldCanBeLocal")
     private boolean validate = true;
 
+    @Parameter
+    private List<ResourceConfiguration> files = Collections.emptyList();
+
     private final Console log = new LogConsole(getLog());
 
     public void execute() throws MojoExecutionException {
@@ -125,13 +131,13 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    // TODO: Allow the user to add to this
     private Collection<Resource> buildResourceList() {
         return ImmutableList.<Resource>builder()
                 .add(new FileResource(configTemplate, true, path.getConfigFile(), unix.getUser(), unix.getUser(), UNIX_MODE_USER_ONLY))
                 .add(new EmbeddedResource("/files/jvm.conf", true, path.getJvmConfigFile(), "root", "root", TarEntry.DEFAULT_FILE_MODE))
                 .add(new EmbeddedResource("/files/upstart.conf", true, path.getUpstartFile(), "root", "root", TarEntry.DEFAULT_FILE_MODE))
                 .add(new FileResource(artifactFile, false, path.getJarFile(), unix.getUser(), unix.getUser(), TarEntry.DEFAULT_FILE_MODE))
+                .addAll(Collections2.transform(files, new ResourceProducer(unix.getUser())))
                 .build();
     }
 

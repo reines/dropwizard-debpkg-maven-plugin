@@ -4,29 +4,31 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class PgpConfiguration {
 
-    @Parameter
+    @Parameter(required = true)
     private String alias = null;
 
-    @Parameter
+    @Parameter(required = true)
     private File keyring = null;
 
-    @Parameter
+    @Parameter(required = true)
     private String passphrase = null;
 
     @SuppressWarnings("unused")
     public String getAlias() {
-        return alias;
+        return checkNotNull(alias);
     }
 
     @SuppressWarnings("unused")
     public File getKeyring() {
-        return keyring;
+        return checkNotNull(keyring);
     }
 
     @SuppressWarnings("unused")
     public String getPassphrase() {
-        return passphrase;
+        return checkNotNull(passphrase);
     }
 }
