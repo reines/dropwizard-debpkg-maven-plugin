@@ -103,4 +103,23 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## License
 
-Released under the Apache 2.0 License
+Released under the [Apache 2.0 License](LICENSE).
+
+## Change Log
+
+### 0.3
+
+* Added support for including arbitrary files in the package using the `<files />` configuration parameter.
+* Fixed configuration parameters not being respected properly.
+* No longer delete the unix user on package uninstall, in-case we're using a user that we didn't create ourselves.
+* No longer force the use of a 64-bit JVM.
+
+### 0.2 - 4 June 2014
+
+* Added JVM configuration with sensible defaults and GC logging.
+* Replaced configuration validation implementation to avoid use of bytecode manipulation.
+* Added ability to PGP encrypt packages using the `<pgp />` configuration parameter.
+
+### 0.1 - 26 May 2014
+
+* Initial release
