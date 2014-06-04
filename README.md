@@ -110,7 +110,7 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
-### 0.3 - _Upcoming_
+### 0.3 - 4 June 2014
 
 * Added support for including arbitrary files in the package using the `<files />` configuration parameter.
 * Fixed configuration parameters not being respected properly.
