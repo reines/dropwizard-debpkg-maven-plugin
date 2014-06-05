@@ -13,6 +13,8 @@ import com.jamierf.dropwizard.debpkg.resource.StringResource;
 import com.jamierf.dropwizard.debpkg.template.MissingParameterException;
 import com.jamierf.dropwizard.debpkg.util.ArchiveUtils;
 import com.jamierf.dropwizard.debpkg.util.SystemConsole;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.tools.tar.TarEntry;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.*;
@@ -35,6 +37,7 @@ import java.security.Security;
 import java.security.SignatureException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.zip.GZIPInputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -197,5 +200,23 @@ public class PackageBuilderTest {
         final File testFile = new File(dataDir, "/tmp/test.txt");
         assertTrue(testFile.exists());
         assertEquals("hello test", Files.asCharSource(testFile, StandardCharsets.UTF_8).read().trim());
+    }
+
+    @Test
+    public void testFileOwnershipAndPermissions() throws IOException, PackagingException {
+        final File debFile = createPackage(ImmutableList.<Resource>of(
+                new StringResource("hello world", true, "/test.txt", USER, USER, 0764)
+        ));
+
+        final File packageDir = temporaryFolder.newFolder();
+        ArchiveUtils.extractAr(debFile, packageDir);
+
+        try (final TarArchiveInputStream in = new TarArchiveInputStream(new GZIPInputStream(new FileInputStream(new File(packageDir, "data.tar.gz"))))) {
+            final TarArchiveEntry entry = in.getNextTarEntry();
+            assertEquals("./test.txt", entry.getName());
+            assertEquals(USER, entry.getUserName());
+            assertEquals(USER, entry.getGroupName());
+            assertEquals(0764, entry.getMode());
+        }
     }
 }
