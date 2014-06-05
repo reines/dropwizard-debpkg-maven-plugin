@@ -30,39 +30,44 @@ public class PathConfiguration {
         return jarFile == null ? String.format("/usr/share/java/%s.jar", project.getArtifactId()) : jarFile;
     }
 
-    public void setJarFile(final String jarFile) {
+    public PathConfiguration setJarFile(final String jarFile) {
         this.jarFile = jarFile;
+        return this;
     }
 
     public String getConfigFile() {
         return configFile == null ? String.format("/etc/%s.yml", project.getArtifactId()) : configFile;
     }
 
-    public void setConfigFile(final String configFile) {
+    public PathConfiguration setConfigFile(final String configFile) {
         this.configFile = configFile;
+        return this;
     }
 
     public String getJvmConfigFile() {
         return jvmConfigFile == null ? String.format("/etc/%s.jvm.conf", project.getArtifactId()) : jvmConfigFile;
     }
 
-    public void setJvmConfigFile(final String jvmConfigFile) {
+    public PathConfiguration setJvmConfigFile(final String jvmConfigFile) {
         this.jvmConfigFile = jvmConfigFile;
+        return this;
     }
 
     public String getLogDirectory() {
         return logDirectory == null ? String.format("/var/log/%s", project.getArtifactId()) : logDirectory;
     }
 
-    public void setLogDirectory(final String logDirectory) {
+    public PathConfiguration setLogDirectory(final String logDirectory) {
         this.logDirectory = logDirectory;
+        return this;
     }
 
     public String getUpstartFile() {
         return upstartFile == null ? String.format("/etc/init/%s.conf", project.getArtifactId()) : upstartFile;
     }
 
-    public void setUpstartFile(final String upstartFile) {
+    public PathConfiguration setUpstartFile(final String upstartFile) {
         this.upstartFile = upstartFile;
+        return this;
     }
 }

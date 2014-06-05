@@ -33,6 +33,7 @@ import org.vafer.jdeb.PackagingException;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -160,7 +161,7 @@ public class DropwizardMojo extends AbstractMojo {
     private File extractResources(final Collection<Resource> resources, final Map<String, Object> parameters) throws MojoExecutionException {
         try {
             final File outputDir = new File(project.getBuild().getDirectory(), WORKING_DIRECTORY_NAME);
-            new ResourceExtractor(parameters, getLog()).extractResources(resources, outputDir);
+            new ResourceExtractor(parameters, log).extractResources(resources, outputDir);
             return outputDir;
         }
         catch (IOException e) {
@@ -191,7 +192,8 @@ public class DropwizardMojo extends AbstractMojo {
 
     private File createPackage(final Collection<Resource> resources, final File inputDir) throws MojoExecutionException {
         try {
-            new PackageBuilder(project, log, Optional.fromNullable(pgp)).createPackage(resources, inputDir, outputFile);
+            new PackageBuilder(project.getArtifactId(), project.getDescription(), URI.create(project.getUrl()), log, Optional.fromNullable(pgp))
+                    .createPackage(resources, inputDir, outputFile);
             return outputFile;
         }
         catch (PackagingException e) {

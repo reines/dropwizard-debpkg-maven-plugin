@@ -10,12 +10,14 @@ public class DebConfiguration {
     private MavenProject project;
     private MavenSession session;
 
-    public void setProject(final MavenProject project) {
+    public DebConfiguration setProject(final MavenProject project) {
         this.project = project;
+        return this;
     }
 
-    public void setSession(final MavenSession session) {
+    public DebConfiguration setSession(final MavenSession session) {
         this.session = session;
+        return this;
     }
 
     @Parameter
@@ -33,7 +35,8 @@ public class DebConfiguration {
         return maintainer;
     }
 
-    public void setMaintainer(final String maintainer) {
+    public DebConfiguration setMaintainer(final String maintainer) {
         this.maintainer = maintainer;
+        return this;
     }
 }

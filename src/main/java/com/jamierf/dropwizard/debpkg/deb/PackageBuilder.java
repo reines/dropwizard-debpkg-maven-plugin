@@ -5,10 +5,10 @@ import com.google.common.collect.Collections2;
 import com.jamierf.dropwizard.debpkg.config.PgpConfiguration;
 import com.jamierf.dropwizard.debpkg.resource.Resource;
 import com.jamierf.dropwizard.debpkg.transforms.ResourceDataProducer;
-import org.apache.maven.project.MavenProject;
 import org.vafer.jdeb.*;
 
 import java.io.File;
+import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -16,12 +16,16 @@ public class PackageBuilder {
 
     private static final Compression COMPRESSION = Compression.GZIP;
 
-    private final MavenProject project;
+    private final String title;
+    private final String description;
+    private final URI homepage;
     private final Console log;
     private final Optional<PgpConfiguration> pgpConfiguration;
 
-    public PackageBuilder(final MavenProject project, final Console log, final Optional<PgpConfiguration> pgpConfiguration) {
-        this.project = project;
+    public PackageBuilder(final String title, final String description, final URI homepage, final Console log, final Optional<PgpConfiguration> pgpConfiguration) {
+        this.title = title;
+        this.description = description;
+        this.homepage = homepage;
         this.log = log;
         this.pgpConfiguration = pgpConfiguration;
     }
@@ -33,9 +37,9 @@ public class PackageBuilder {
         debMaker.setDeb(debFile);
         debMaker.setControl(new File(inputDir, "control"));
 
-        debMaker.setPackage(project.getArtifactId());
-        debMaker.setDescription(project.getDescription());
-        debMaker.setHomepage(project.getUrl());
+        debMaker.setPackage(title);
+        debMaker.setDescription(description);
+        debMaker.setHomepage(homepage.toString());
         debMaker.setCompression(COMPRESSION.toString());
 
         if (pgpConfiguration.isPresent()) {

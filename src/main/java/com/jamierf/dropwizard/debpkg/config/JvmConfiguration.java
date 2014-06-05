@@ -19,23 +19,26 @@ public class JvmConfiguration {
         return memory;
     }
 
-    public void setMemory(final String memory) {
+    public JvmConfiguration setMemory(final String memory) {
         this.memory = memory;
+        return this;
     }
 
     public String getPackageName() {
         return packageName;
     }
 
-    public void setPackageName(final String packageName) {
+    public JvmConfiguration setPackageName(final String packageName) {
         this.packageName = packageName;
+        return this;
     }
 
     public String getPackageVersion() {
         return packageVersion;
     }
 
-    public void setPackageVersion(final String packageVersion) {
+    public JvmConfiguration setPackageVersion(final String packageVersion) {
         this.packageVersion = packageVersion;
+        return this;
     }
 }

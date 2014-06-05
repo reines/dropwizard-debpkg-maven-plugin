@@ -21,23 +21,26 @@ public class PgpConfiguration {
         return checkNotNull(alias);
     }
 
-    public void setAlias(final String alias) {
+    public PgpConfiguration setAlias(final String alias) {
         this.alias = alias;
+        return this;
     }
 
     public File getKeyring() {
         return checkNotNull(keyring);
     }
 
-    public void setKeyring(final File keyring) {
+    public PgpConfiguration setKeyring(final File keyring) {
         this.keyring = keyring;
+        return this;
     }
 
     public String getPassphrase() {
         return checkNotNull(passphrase);
     }
 
-    public void setPassphrase(final String passphrase) {
+    public PgpConfiguration setPassphrase(final String passphrase) {
         this.passphrase = passphrase;
+        return this;
     }
 }

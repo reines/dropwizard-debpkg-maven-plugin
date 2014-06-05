@@ -5,7 +5,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.debpkg.DropwizardMojo;
 import com.jamierf.dropwizard.debpkg.template.Templater;
-import org.apache.maven.plugin.logging.Log;
+import org.vafer.jdeb.Console;
 
 import java.io.*;
 import java.net.URL;
@@ -20,9 +20,9 @@ public class ResourceExtractor {
     );
 
     private final Map<String, Object> parameters;
-    private final Log log;
+    private final Console log;
 
-    public ResourceExtractor(final Map<String, Object> parameters, final Log log) {
+    public ResourceExtractor(final Map<String, Object> parameters, final Console log) {
         this.parameters = parameters;
         this.log = log;
     }

@@ -11,7 +11,8 @@ public class UnixConfiguration {
         return user;
     }
 
-    public void setUser(final String user) {
+    public UnixConfiguration setUser(final String user) {
         this.user = user;
+        return this;
     }
 }
