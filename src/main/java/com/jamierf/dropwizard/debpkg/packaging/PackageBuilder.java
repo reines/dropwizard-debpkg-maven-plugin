@@ -1,4 +1,4 @@
-package com.jamierf.dropwizard.debpkg.deb;
+package com.jamierf.dropwizard.debpkg.packaging;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Collections2;

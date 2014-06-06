@@ -1,9 +1,10 @@
-package com.jamierf.dropwizard.debpkg.resource;
+package com.jamierf.dropwizard.debpkg.packaging;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.debpkg.DropwizardMojo;
+import com.jamierf.dropwizard.debpkg.resource.Resource;
 import com.jamierf.dropwizard.debpkg.template.Templater;
 import org.vafer.jdeb.Console;
 

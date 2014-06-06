@@ -1,4 +1,4 @@
-package com.jamierf.dropwizard.debpkg;
+package com.jamierf.dropwizard.debpkg.packaging;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -6,9 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.debpkg.config.PgpConfiguration;
-import com.jamierf.dropwizard.debpkg.deb.PackageBuilder;
 import com.jamierf.dropwizard.debpkg.resource.Resource;
-import com.jamierf.dropwizard.debpkg.resource.ResourceExtractor;
 import com.jamierf.dropwizard.debpkg.resource.StringResource;
 import com.jamierf.dropwizard.debpkg.template.MissingParameterException;
 import com.jamierf.dropwizard.debpkg.util.ArchiveUtils;

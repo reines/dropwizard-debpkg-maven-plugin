@@ -1,0 +1,20 @@
+template hello %s
+defaultName: Stranger
+
+database:
+  driverClass: "org.h2.Driver"
+  url: "jdbc:h2:mem"
+  user: ""
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081

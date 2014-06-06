@@ -1,15 +1,17 @@
 package com.jamierf.dropwizard.debpkg.validation;
 
+import com.google.common.base.Throwables;
+import org.apache.tools.ant.ExitException;
 import org.vafer.jdeb.Console;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 public class ApplicationValidator {
 
@@ -18,35 +20,56 @@ public class ApplicationValidator {
     private final File artifactFile;
     private final Console log;
     private final ClassLoader classLoader;
+    private final Class<?> mainClass;
 
-    public ApplicationValidator(final File artifactFile, final Console log) throws MalformedURLException {
+    public ApplicationValidator(final File artifactFile, final Console log) throws IOException, ClassNotFoundException {
         this.artifactFile = artifactFile;
         this.log = log;
 
-        classLoader = new URLClassLoader(new URL[]{artifactFile.toURI().toURL()});
+        // Set parent to null to avoid pulling in SLF4J and other conflicts from our self
+        classLoader = new URLClassLoader(new URL[]{artifactFile.toURI().toURL()}, null);
+        mainClass = getMainClass();
     }
 
-    private String getMainClassName() throws IOException {
+    private Class<?> getMainClass() throws IOException, ClassNotFoundException {
         final JarFile jarFile = new JarFile(artifactFile);
-        final String mainClassName = jarFile.getManifest().getMainAttributes().getValue(MANIFEST_MAIN_CLASS_ATTRIBUTE);
+        final Manifest manifest = jarFile.getManifest();
+        if (manifest == null) {
+            throw new IllegalStateException("Failed to find manifest file");
+        }
+
+        final String mainClassName = manifest.getMainAttributes().getValue(MANIFEST_MAIN_CLASS_ATTRIBUTE);
         if (mainClassName == null) {
             throw new IllegalStateException("Failed to find main class in artifact jar");
         }
 
-        return mainClassName;
+        return classLoader.loadClass(mainClassName);
     }
 
     public void validateConfiguration(final File configFile) throws IOException, ClassNotFoundException {
-        final Class<?> mainClass = classLoader.loadClass(getMainClassName());
+        final SecurityManager securityManager = System.getSecurityManager();
 
         try {
+            System.setSecurityManager(new DelegatingNoExitSecurityManager(securityManager));
+
             final Method mainMethod = mainClass.getDeclaredMethod("main", String[].class);
             // Passed in an Object[] to avoid invoking as varargs
             mainMethod.invoke(null, new Object[]{new String[]{"check", configFile.getAbsolutePath()}});
         }
         catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            log.warn("Failed to validate configuration");
-            throw new IllegalStateException(e);
+            final Throwable cause = Throwables.getRootCause(e);
+            if (cause instanceof ExitException) {
+                if (((ExitException) cause).getStatus() != 0) {
+                    log.warn("Failed to validate configuration");
+                    throw new IllegalStateException(cause);
+                }
+            }
+
+            log.warn("Failed to call configuration validation method");
+            throw Throwables.propagate(e);
+        }
+        finally {
+            System.setSecurityManager(securityManager);
         }
     }
 }
