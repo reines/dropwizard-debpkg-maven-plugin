@@ -110,6 +110,13 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
+#### 0.4 - _Upcoming_
+
+* Catch `System.exit` call from Dropwizard check command and handle gracefully.
+* Prevented class loader used for validation leaking classes between the application being validated and this plugin.
+* Repacking code under `com.jamierf.dropwizard.debpkg` namespace.
+* Added functional tests for both package creation and configuration validation.
+
 ### 0.3 - 4 June 2014
 
 * Added support for including arbitrary files in the package using the `<files />` configuration parameter.
