@@ -74,4 +74,11 @@ public class ApplicationValidatorTest {
         final ApplicationValidator validator = new ApplicationValidator(jarFile, LOG);
         validator.validateConfiguration(extractResource("valid.yml"));
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testPrivateMainMethod() throws IOException, ClassNotFoundException {
+        final File jarFile = extractResource("private.jar");
+        final ApplicationValidator validator = new ApplicationValidator(jarFile, LOG);
+        validator.validateConfiguration(extractResource("valid.yml"));
+    }
 }
