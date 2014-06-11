@@ -15,10 +15,6 @@ public class ResourceProducer implements Function<ResourceConfiguration, Resourc
 
     @Override
     public Resource apply(final ResourceConfiguration input) {
-        if (input == null) {
-            return null;
-        }
-
         final String user = input.getUser().or(defaultUser);
         return new FileResource(input.getSource(), input.isFilter(), input.getTarget(), user, user, input.getMode());
     }

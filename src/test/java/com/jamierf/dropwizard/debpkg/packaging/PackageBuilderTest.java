@@ -201,6 +201,23 @@ public class PackageBuilderTest {
     }
 
     @Test
+    public void testTemplatesNotExecutedWhenNotFiltered() throws IOException, PackagingException {
+        final File debFile = createPackage(ImmutableList.<Resource>of(
+                new StringResource("hello {{{deb.name}}}", false, "/tmp/test.txt", USER, USER, TarEntry.DEFAULT_FILE_MODE)
+        ));
+
+        final File packageDir = temporaryFolder.newFolder();
+        ArchiveUtils.extractAr(debFile, packageDir);
+
+        final File dataDir = temporaryFolder.newFolder();
+        ArchiveUtils.extractTarGzip(new File(packageDir, "data.tar.gz"), dataDir);
+
+        final File testFile = new File(dataDir, "/tmp/test.txt");
+        assertTrue(testFile.exists());
+        assertEquals("hello {{{deb.name}}}", Files.asCharSource(testFile, StandardCharsets.UTF_8).read().trim());
+    }
+
+    @Test
     public void testFileOwnershipAndPermissions() throws IOException, PackagingException {
         final File debFile = createPackage(ImmutableList.<Resource>of(
                 new StringResource("hello world", true, "/test.txt", USER, USER, 0764)

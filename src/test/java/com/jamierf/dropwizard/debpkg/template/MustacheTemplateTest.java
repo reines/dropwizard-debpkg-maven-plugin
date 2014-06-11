@@ -1,5 +1,6 @@
 package com.jamierf.dropwizard.debpkg.template;
 
+import com.github.mustachejava.MustacheException;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.debpkg.template.mustache.MustacheTemplater;
@@ -66,6 +67,12 @@ public class MustacheTemplateTest {
     @Test(expected = MissingParameterException.class)
     public void testMissingParameter() throws IOException {
         final String template = getTemplate("simple.mustache");
+        templater.execute(template, "test", Collections.emptySet());
+    }
+
+    @Test(expected = MustacheException.class)
+    public void testInvalidTemplate() throws IOException {
+        final String template = getTemplate("invalid.mustache");
         templater.execute(template, "test", Collections.emptySet());
     }
 }
