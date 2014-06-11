@@ -12,6 +12,7 @@ env:
     - secure: "aVBVmwNRY6v1Pg4faoeHWI8GgufkzM0AH+HKTRLWyuC/VsvHpFAbtrQ80Y4HXoCm7Wz7PaihQkMEXBV6GAfsv99YwNu9X6JwNb2ccnEKb97eO/gObeK0nM0IaVDHPznRkyUnKPegVOTe53ch2VSUlCfteyHVOnPZ5fSH9Oxej0c="
     - secure: "NxGKi/aTlrr1KWqrLU3OW6SDOSpmNyoPadGbxivz7qf8G4aYoBHmaaTXm3BaT2jnT+PxcD8trE5A8+H2OOAKBTZHTevuwOxfuyj4T7g1lRq029opr8UD2l2QKftUOjs/2fhV+/rfFxC2ZvN56HSwId8+EHxvkIJv54KctDCyU/U="
 
+script: mvn test jacoco:report coveralls:jacoco
+
 after_success:
-  - mvn clean test jacoco:report coveralls:jacoco
-  - mvn clean deploy --settings settings.xml
+  - mvn deploy --settings settings.xml
