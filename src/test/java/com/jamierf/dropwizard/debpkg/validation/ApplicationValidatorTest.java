@@ -4,18 +4,22 @@ import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.debpkg.util.SystemConsole;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.vafer.jdeb.Console;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 
 public class ApplicationValidatorTest {
 
     private static final Console LOG = new SystemConsole();
+
+    private static final URI APPLICATION_JAR_URI = URI.create("https://dl.dropboxusercontent.com/s/r7snqf4arye0w6n/dropwizard-example-0.7.0.jar");
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -24,30 +28,33 @@ public class ApplicationValidatorTest {
 
     @Before
     public void setUp() throws IOException {
-        applicationJar = null; // TODO: Load dropwizard-example jar from somewhere
+        applicationJar = new File(System.getProperty("java.io.tmpdir"), "dropwizard-example-0.7.0.jar");
+        if (!applicationJar.exists()) {
+            try (final InputStream in = new BufferedInputStream(APPLICATION_JAR_URI.toURL().openStream())) {
+                LOG.info(String.format("Downloading %s to %s", APPLICATION_JAR_URI, applicationJar.getAbsolutePath()));
+                Files.asByteSink(applicationJar).writeFrom(in);
+            }
+        }
     }
 
     private File extractResource(String path) throws IOException {
-        final File target = temporaryFolder.newFile(path);
+        final File target = temporaryFolder.newFile();
         Resources.asByteSource(ApplicationValidatorTest.class.getResource(path)).copyTo(Files.asByteSink(target));
         return target;
     }
 
-    @Ignore
     @Test
     public void testValidConfiguration() throws IOException, ClassNotFoundException {
         final ApplicationValidator validator = new ApplicationValidator(applicationJar, LOG);
         validator.validateConfiguration(extractResource("valid.yml"));
     }
 
-    @Ignore
     @Test(expected = IllegalStateException.class)
     public void testSyntaxError() throws IOException, ClassNotFoundException {
         final ApplicationValidator validator = new ApplicationValidator(applicationJar, LOG);
         validator.validateConfiguration(extractResource("invalid_syntax.yml"));
     }
 
-    @Ignore
     @Test(expected = IllegalStateException.class)
     public void testInvalidConfiguration() throws IOException, ClassNotFoundException {
         final ApplicationValidator validator = new ApplicationValidator(applicationJar, LOG);
