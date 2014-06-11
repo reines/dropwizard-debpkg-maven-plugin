@@ -110,7 +110,7 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
-#### 0.4 - _Upcoming_
+#### 0.4 - 11 June 2014
 
 * Catch `System.exit` call from Dropwizard check command and handle gracefully.
 * Prevented class loader used for validation leaking classes between the application being validated and this plugin.
