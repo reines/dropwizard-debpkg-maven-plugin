@@ -111,7 +111,7 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
-#### 0.5 - _Upcoming_
+#### 0.5 - 12 June 2014
 
 * Fixed potential `NPE` when packaging a project without a `URL` defined.
 
