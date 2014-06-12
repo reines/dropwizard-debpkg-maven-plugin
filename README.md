@@ -1,6 +1,6 @@
 # Dropwizard Debian Package
-[![Build Status](https://api.travis-ci.org/reines/dropwizard-debpkg-maven-plugin.png)](https://travis-ci.org/reines/dropwizard-debpkg-maven-plugin)
-[![Coverage Status](https://coveralls.io/repos/reines/dropwizard-debpkg-maven-plugin/badge.png)](https://coveralls.io/r/reines/dropwizard-debpkg-maven-plugin)
+[![Build Status](https://api.travis-ci.org/reines/dropwizard-debpkg-maven-plugin.png?branch=master)](https://travis-ci.org/reines/dropwizard-debpkg-maven-plugin?branch=master)
+[![Coverage Status](https://coveralls.io/repos/reines/dropwizard-debpkg-maven-plugin/badge.png?branch=master)](https://coveralls.io/r/reines/dropwizard-debpkg-maven-plugin?branch=master)
 
 A maven plugin for packaging your [Dropwizard Application](http://dropwizard.github.io/dropwizard) as a [Debian package](http://en.wikipedia.org/wiki/Deb_\(file_format\)). Your Application is managed as an [Upstart](http://upstart.ubuntu.com) job, with the service name `${project.artifactId}`.
 
