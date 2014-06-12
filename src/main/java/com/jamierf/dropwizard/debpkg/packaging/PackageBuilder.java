@@ -39,7 +39,11 @@ public class PackageBuilder {
 
         debMaker.setPackage(title);
         debMaker.setDescription(description);
-        debMaker.setHomepage(homepage.toString());
+
+        if (homepage != null) {
+            debMaker.setHomepage(homepage.toString());
+        }
+
         debMaker.setCompression(COMPRESSION.toString());
 
         if (pgpConfiguration.isPresent()) {
