@@ -111,6 +111,10 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
+#### 0.5 - _Upcoming_
+
+* Fixed potential `NPE` when packaging a project without a `URL` defined.
+
 #### 0.4 - 11 June 2014
 
 * Catch `System.exit` call from Dropwizard check command and handle gracefully.

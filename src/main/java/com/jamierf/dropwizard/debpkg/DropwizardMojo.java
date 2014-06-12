@@ -192,7 +192,8 @@ public class DropwizardMojo extends AbstractMojo {
 
     private File createPackage(final Collection<Resource> resources, final File inputDir) throws MojoExecutionException {
         try {
-            new PackageBuilder(project.getArtifactId(), project.getDescription(), URI.create(project.getUrl()), log, Optional.fromNullable(pgp))
+            final URI homepage = project.getUrl() == null ? null : URI.create(project.getUrl());
+            new PackageBuilder(project.getArtifactId(), project.getDescription(), homepage, log, Optional.fromNullable(pgp))
                     .createPackage(resources, inputDir, outputFile);
             return outputFile;
         }
