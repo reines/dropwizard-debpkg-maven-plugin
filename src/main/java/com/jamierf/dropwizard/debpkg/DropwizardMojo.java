@@ -6,12 +6,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.jamierf.dropwizard.debpkg.config.*;
-import com.jamierf.dropwizard.debpkg.packaging.PackageBuilder;
 import com.jamierf.dropwizard.debpkg.filter.DependencyFilter;
+import com.jamierf.dropwizard.debpkg.packaging.PackageBuilder;
+import com.jamierf.dropwizard.debpkg.packaging.ResourceExtractor;
 import com.jamierf.dropwizard.debpkg.resource.EmbeddedResource;
 import com.jamierf.dropwizard.debpkg.resource.FileResource;
 import com.jamierf.dropwizard.debpkg.resource.Resource;
-import com.jamierf.dropwizard.debpkg.packaging.ResourceExtractor;
 import com.jamierf.dropwizard.debpkg.transforms.ResourceProducer;
 import com.jamierf.dropwizard.debpkg.util.LogConsole;
 import com.jamierf.dropwizard.debpkg.validation.ApplicationValidator;
@@ -96,7 +96,7 @@ public class DropwizardMojo extends AbstractMojo {
     @Parameter
     private List<ResourceConfiguration> files = Collections.emptyList();
 
-    private final Console log = new LogConsole(getLog());
+    private Console log = new LogConsole(getLog());
 
     public void execute() throws MojoExecutionException {
         setupMojoConfiguration();
@@ -115,6 +115,8 @@ public class DropwizardMojo extends AbstractMojo {
     }
 
     private void setupMojoConfiguration() throws MojoExecutionException {
+        log = new LogConsole(getLog()); // Re set up logging in case the log implementation was changed during execution
+
         deb.setProject(project);
         deb.setSession(session);
         path.setProject(project);
