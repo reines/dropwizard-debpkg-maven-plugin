@@ -78,6 +78,7 @@ Below is the default configuration. The only required parameter is the `configTe
             <memory>128m</memory><!-- Optional: JVM heap size to allocate, once deployed. -->
             <packageName>openjdk-7-jdk</packageName><!-- Optional: JRE package to ensure installed as part of deployment. -->
             <packageVersion>any</packageVersion><!-- Optional: Version of JRE package to require, defaults to the latest. -->
+            <server>true</server><!-- Optional: If the JVM should run in server mode. -->
         </jvm>
         <unix>
             <user>dropwizard</user><!-- Optional: The unix user to create and run as. -->
@@ -89,10 +90,12 @@ Below is the default configuration. The only required parameter is the `configTe
         </pgp>
         <path>
             <jarFile>/usr/share/java/${project.artifactId}.jar</jarFile><!-- Optional: Path to the service jar, once deployed. -->
+            <startScript>/usr/bin/${project.artifactId}</startScript><!-- Optional Path to the start script, once deployed. -->
             <configFile>/etc/${project.artifactId}.yml</configFile><!-- Optional: Path to your service configuration, once deployed. -->
             <jvmConfigFile>/etc/${project.artifactId}.jvm.conf</jvmConfigFile><!-- Optional: Path to your JVM parameter configuration, once deployed. -->
             <logDirectory>/var/log/${project.artifactId}</logDirectory><!-- Optional: Directory for service logs, once deployed. -->
             <upstartFile>/etc/init/${project.artifactId}.conf</upstartFile><!-- Optional: Path to the service upstart configuration, once deployed. -->
+            <sysVinitFile>/etc/init.d/${project.artifactId}</sysVinitFile><!-- Optional: Path to the service init configuration, once deployed. -->
         </path>
         <files><!-- Optional: Empty by default. -->
             <file>

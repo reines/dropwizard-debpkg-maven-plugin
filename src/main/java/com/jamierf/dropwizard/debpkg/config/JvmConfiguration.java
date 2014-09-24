@@ -15,6 +15,9 @@ public class JvmConfiguration {
     @Parameter
     private String packageVersion = null;
 
+    @Parameter
+    private boolean server = true;
+
     public String getMemory() {
         return memory;
     }
@@ -40,5 +43,13 @@ public class JvmConfiguration {
     public JvmConfiguration setPackageVersion(final String packageVersion) {
         this.packageVersion = packageVersion;
         return this;
+    }
+
+    public boolean isServer() {
+        return server;
+    }
+
+    public void setServer(final boolean server) {
+        this.server = server;
     }
 }

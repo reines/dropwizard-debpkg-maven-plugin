@@ -13,7 +13,10 @@ public class PathConfiguration {
 
     @Parameter
     private String jarFile = null;
-    
+
+    @Parameter
+    private String startScript = null;
+
     @Parameter
     private String configFile = null;
 
@@ -26,12 +29,24 @@ public class PathConfiguration {
     @Parameter
     private String upstartFile = null;
 
+    @Parameter
+    private String sysVinitFile = null;
+
     public String getJarFile() {
         return jarFile == null ? String.format("/usr/share/java/%s.jar", project.getArtifactId()) : jarFile;
     }
 
     public PathConfiguration setJarFile(final String jarFile) {
         this.jarFile = jarFile;
+        return this;
+    }
+
+    public String getStartScript() {
+        return startScript == null ? String.format("/usr/bin/%s", project.getArtifactId()) : startScript;
+    }
+
+    public PathConfiguration setStartScript(final String startScript) {
+        this.startScript = startScript;
         return this;
     }
 
@@ -68,6 +83,15 @@ public class PathConfiguration {
 
     public PathConfiguration setUpstartFile(final String upstartFile) {
         this.upstartFile = upstartFile;
+        return this;
+    }
+
+    public String getSysVinitFile() {
+        return sysVinitFile == null ? String.format("/etc/init.d/%s", project.getArtifactId()) : sysVinitFile;
+    }
+
+    public PathConfiguration setSysVinitFile(final String sysVinitFile) {
+        this.sysVinitFile = sysVinitFile;
         return this;
     }
 }

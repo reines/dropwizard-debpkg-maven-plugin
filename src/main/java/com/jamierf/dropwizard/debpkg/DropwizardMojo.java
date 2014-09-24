@@ -142,6 +142,8 @@ public class DropwizardMojo extends AbstractMojo {
                 .add(new FileResource(configTemplate, true, path.getConfigFile(), unix.getUser(), unix.getUser(), UNIX_MODE_USER_ONLY))
                 .add(new EmbeddedResource("/files/jvm.conf", true, path.getJvmConfigFile(), "root", "root", TarEntry.DEFAULT_FILE_MODE))
                 .add(new EmbeddedResource("/files/upstart.conf", true, path.getUpstartFile(), "root", "root", TarEntry.DEFAULT_FILE_MODE))
+                .add(new EmbeddedResource("/files/sysvinit.sh", true, path.getSysVinitFile(), "root", "root", TarEntry.DEFAULT_FILE_MODE | 0100111))
+                .add(new EmbeddedResource("/files/start.sh", true, path.getStartScript(), "root", "root", TarEntry.DEFAULT_FILE_MODE | 0100111))
                 .add(new FileResource(artifactFile, false, path.getJarFile(), unix.getUser(), unix.getUser(), TarEntry.DEFAULT_FILE_MODE))
                 .addAll(Collections2.transform(files, new ResourceProducer(unix.getUser())))
                 .build();

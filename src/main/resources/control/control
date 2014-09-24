@@ -3,6 +3,6 @@ Version: {{{deb.version}}}
 Section: misc
 Priority: low
 Architecture: all
-Description: {{{project.description}}}
+Description: {{{project.description}}} (Dropwizard Application)
 Maintainer: {{{deb.maintainer}}}
 Depends: {{{jvm.packageName}}} {{#jvm.packageVersion}}(= {{{jvm.packageVersion}}}){{/jvm.packageVersion}}

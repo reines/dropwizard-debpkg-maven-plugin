@@ -1,5 +1,13 @@
 #!/bin/sh
 
-stop "{{{project.artifactId}}}" >/dev/null 2>&1
+# Upstart
+if command -v initctl >/dev/null 2>&1; then
+    initctl stop "{{{project.artifactId}}}" >/dev/null 2>&1
+fi
+
+# SysVinit
+if command -v update-rc.d >/dev/null 2>&1; then
+    update-rc.d "{{{project.artifactId}}}" remove
+fi
 
 exit 0

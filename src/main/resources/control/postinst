@@ -1,6 +1,15 @@
-#!/bin/sh -e
+#!/bin/sh
 
-initctl reload-configuration
-start "{{{project.artifactId}}}"
+# Upstart
+if command -v initctl >/dev/null 2>&1; then
+    initctl reload-configuration
+    initctl start "{{{project.artifactId}}}"
+fi
+
+# SysVinit
+if command -v update-rc.d >/dev/null 2>&1; then
+    update-rc.d "{{{project.artifactId}}}" defaults
+    /etc/init.d/{{{project.artifactId}}} start
+fi
 
 exit 0
