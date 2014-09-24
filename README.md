@@ -115,12 +115,11 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
-#### 0.6
+#### 0.6 - 24 September 2014
 
 * Added SysVinit support.
 * Added start script at `/usr/bin/${project.artifactId}`.
 * Option to run without `-server` flag for JVM.
-
 
 #### 0.5 - 12 June 2014
 
