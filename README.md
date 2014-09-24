@@ -12,7 +12,7 @@ Assuming `validate` is set to true (the default), the configuration will be vali
 * Ensures a JRE/JDK is installed through Debian package management.
 * Generates application configuration from a Mustache template, allowing injecting values based on maven profiles.
 * Validates generated application configuration against the application itself. An invalid configuration file will cause the build to fail.
-* Once installed your application is managed as an Upstart job.
+* Once installed your application is managed as an Upstart or SysVinit job.
 * Sensible default JVM options.
 * `stdout`, `stderr` and GC logging enabled by default.
 
@@ -114,6 +114,13 @@ Below is the default configuration. The only required parameter is the `configTe
     </configuration>
 
 ## Change Log
+
+#### 0.6
+
+* Added SysVinit support.
+* Added start script at `/usr/bin/${project.artifactId}`.
+* Option to run without `-server` flag for JVM.
+
 
 #### 0.5 - 12 June 2014
 
