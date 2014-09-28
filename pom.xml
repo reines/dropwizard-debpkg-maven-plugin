@@ -9,7 +9,7 @@
 
     <groupId>com.jamierf.dropwizard</groupId>
     <artifactId>dropwizard-debpkg-maven-plugin</artifactId>
-    <version>0.7</version>
+    <version>0.8-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>Dropwizard Debian packaging Maven plugin</name>
