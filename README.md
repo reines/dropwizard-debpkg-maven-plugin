@@ -115,6 +115,10 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
+#### 0.7
+
+* Only use SysVinit if Upstart isn't present.
+
 #### 0.6 - 24 September 2014
 
 * Added SysVinit support.
