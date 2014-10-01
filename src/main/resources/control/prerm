@@ -2,7 +2,7 @@
 
 # Upstart
 if command -v initctl >/dev/null 2>&1; then
-    initctl stop "{{{project.artifactId}}}" >/dev/null 2>&1
+    initctl stop "{{{project.artifactId}}}"
 # SysVinit
 elif command -v update-rc.d >/dev/null 2>&1; then
     update-rc.d "{{{project.artifactId}}}" remove
