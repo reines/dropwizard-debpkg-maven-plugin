@@ -20,98 +20,104 @@ Assuming `validate` is set to true (the default), the configuration will be vali
 
 ### Sample plugin definition in project pom
 
-    <plugin>
-        <groupId>com.jamierf.dropwizard</groupId>
-        <artifactId>dropwizard-debpkg-maven-plugin</artifactId>
-        <version>${dropwizard-debpkg-maven-plugin.version}</version>
-        <configuration>
-            <configTemplate>${basedir}/src/config.yml</configTemplate>
-            <jvm>
-                <memory>2g</memory>
-            </jvm>
-            <dropwizard>
-                <httpPort>8080</httpPort>
-                <httpAdminPort>8081</httpAdminPort>
-            </dropwizard>
-        </configuration>
-        <executions>
-            <execution>
-                <phase>package</phase>
-                <goals>
-                    <goal>dwpackage</goal>
-                </goals>
-            </execution>
-        </executions>
-    </plugin>
+```xml
+<plugin>
+    <groupId>com.jamierf.dropwizard</groupId>
+    <artifactId>dropwizard-debpkg-maven-plugin</artifactId>
+    <version>${dropwizard-debpkg-maven-plugin.version}</version>
+    <configuration>
+        <configTemplate>${basedir}/src/config.yml</configTemplate>
+        <jvm>
+            <memory>2g</memory>
+        </jvm>
+        <dropwizard>
+            <httpPort>8080</httpPort>
+            <httpAdminPort>8081</httpAdminPort>
+        </dropwizard>
+    </configuration>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>dwpackage</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
 
 ### Sample Application configuration template
 
-    # {{{project.name}}} - {{{project.description}}}
-    # {{{project.artifactId}}} configuration
+```yaml
+# {{{project.name}}} - {{{project.description}}}
+# {{{project.artifactId}}} configuration
 
-    server:
-      applicationConnectors:
-        - type: http
-          port: {{{dw.httpPort}}}
-      adminConnectors:
-        - type: http
-          port: {{{dw.httpAdminPort}}}
+server:
+  applicationConnectors:
+    - type: http
+      port: {{{dw.httpPort}}}
+  adminConnectors:
+    - type: http
+      port: {{{dw.httpAdminPort}}}
 
-    logging:
-      level: INFO
+logging:
+  level: INFO
 
-      appenders:
-        - type: console
-        - type: file
-          currentLogFilename: "{{{path.logDirectory}}}/test.log"
-          archive: false
+  appenders:
+    - type: console
+    - type: file
+      currentLogFilename: "{{{path.logDirectory}}}/test.log"
+      archive: false
+```
 
 ## Configuration
 
 Below is the default configuration. The only required parameter is the `configTemplate` path, however it is highly likely you will also require some `dropwizard` properties to be injected in to the service configuration.
 
-    <configuration>
-        <deb>
-            <maintainer>Unspecified</maintainer><!-- Optional: The person responsible for this service. -->
-        </deb>
-        <jvm>
-            <memory>128m</memory><!-- Optional: JVM heap size to allocate, once deployed. -->
-            <packageName>openjdk-7-jdk</packageName><!-- Optional: JRE package to ensure installed as part of deployment. -->
-            <packageVersion>any</packageVersion><!-- Optional: Version of JRE package to require, defaults to the latest. -->
-            <server>true</server><!-- Optional: If the JVM should run in server mode. -->
-        </jvm>
-        <unix>
-            <user>dropwizard</user><!-- Optional: The unix user to create and run as. -->
-        </unix>
-        <pgp><!-- Optional: Not present by default. If present, all children are required. -->
-            <alias /><!-- Required: Alias of PGP key to sign with. -->
-            <keyring /><!-- Required: Path to PGP keyring file. -->
-            <passphrase /><!-- Required: Pass phrase of PGP keyring. -->
-        </pgp>
-        <path>
-            <jarFile>/usr/share/java/${project.artifactId}.jar</jarFile><!-- Optional: Path to the service jar, once deployed. -->
-            <startScript>/usr/bin/${project.artifactId}</startScript><!-- Optional Path to the start script, once deployed. -->
-            <configFile>/etc/${project.artifactId}.yml</configFile><!-- Optional: Path to your service configuration, once deployed. -->
-            <jvmConfigFile>/etc/${project.artifactId}.jvm.conf</jvmConfigFile><!-- Optional: Path to your JVM parameter configuration, once deployed. -->
-            <logDirectory>/var/log/${project.artifactId}</logDirectory><!-- Optional: Directory for service logs, once deployed. -->
-            <upstartFile>/etc/init/${project.artifactId}.conf</upstartFile><!-- Optional: Path to the service upstart configuration, once deployed. -->
-            <sysVinitFile>/etc/init.d/${project.artifactId}</sysVinitFile><!-- Optional: Path to the service init configuration, once deployed. -->
-        </path>
-        <files><!-- Optional: Empty by default. -->
-            <file>
-                <source /><!-- Required: Path to the resource file. -->
-                <target /><!-- Required: Path to the resource, once deployed. -->
-                <filter>true</filter><!-- Optional: If this resource should be treated as a template. -->
-                <user>${unix.user}</user><!-- Optional: The user the resource should be owned by. -->
-                <mode>0600</mode><!-- Optional: The filemode for this resource. -->
-            </file>
-        </files>
-        <dropwizard /><!-- Optional: Map of parameters to substitute in to your configuration template on packaging. -->
-        <configTemplate /><!-- Required: Path to your service configuration template. -->
-        <artifactFile>${project.build.directory}/${project.artifactId}-${project.version}.jar</artifactFile><!-- Optional: Path to the service jar to package. -->
-        <outputFile>${project.build.directory}/${project.artifactId}-${project.version}.deb</outputFile><!-- Optional: The path to output the Debian package to. -->
-        <validate>true</validate><!-- Optional: Enable validation of your service configuration at package time. -->
-    </configuration>
+```xml
+<configuration>
+    <deb>
+        <maintainer>Unspecified</maintainer><!-- Optional: The person responsible for this service. -->
+    </deb>
+    <jvm>
+        <memory>128m</memory><!-- Optional: JVM heap size to allocate, once deployed. -->
+        <packageName>openjdk-7-jdk</packageName><!-- Optional: JRE package to ensure installed as part of deployment. -->
+        <packageVersion>any</packageVersion><!-- Optional: Version of JRE package to require, defaults to the latest. -->
+        <server>true</server><!-- Optional: If the JVM should run in server mode. -->
+    </jvm>
+    <unix>
+        <user>dropwizard</user><!-- Optional: The unix user to create and run as. -->
+    </unix>
+    <pgp><!-- Optional: Not present by default. If present, all children are required. -->
+        <alias /><!-- Required: Alias of PGP key to sign with. -->
+        <keyring /><!-- Required: Path to PGP keyring file. -->
+        <passphrase /><!-- Required: Pass phrase of PGP keyring. -->
+    </pgp>
+    <path>
+        <jarFile>/usr/share/java/${project.artifactId}.jar</jarFile><!-- Optional: Path to the service jar, once deployed. -->
+        <startScript>/usr/bin/${project.artifactId}</startScript><!-- Optional Path to the start script, once deployed. -->
+        <configFile>/etc/${project.artifactId}.yml</configFile><!-- Optional: Path to your service configuration, once deployed. -->
+        <jvmConfigFile>/etc/${project.artifactId}.jvm.conf</jvmConfigFile><!-- Optional: Path to your JVM parameter configuration, once deployed. -->
+        <logDirectory>/var/log/${project.artifactId}</logDirectory><!-- Optional: Directory for service logs, once deployed. -->
+        <upstartFile>/etc/init/${project.artifactId}.conf</upstartFile><!-- Optional: Path to the service upstart configuration, once deployed. -->
+        <sysVinitFile>/etc/init.d/${project.artifactId}</sysVinitFile><!-- Optional: Path to the service init configuration, once deployed. -->
+    </path>
+    <files><!-- Optional: Empty by default. -->
+        <file>
+            <source /><!-- Required: Path to the resource file. -->
+            <target /><!-- Required: Path to the resource, once deployed. -->
+            <filter>true</filter><!-- Optional: If this resource should be treated as a template. -->
+            <user>${unix.user}</user><!-- Optional: The user the resource should be owned by. -->
+            <mode>0600</mode><!-- Optional: The filemode for this resource. -->
+        </file>
+    </files>
+    <dropwizard /><!-- Optional: Map of parameters to substitute in to your configuration template on packaging. -->
+    <configTemplate /><!-- Required: Path to your service configuration template. -->
+    <artifactFile>${project.build.directory}/${project.artifactId}-${project.version}.jar</artifactFile><!-- Optional: Path to the service jar to package. -->
+    <outputFile>${project.build.directory}/${project.artifactId}-${project.version}.deb</outputFile><!-- Optional: The path to output the Debian package to. -->
+    <validate>true</validate><!-- Optional: Enable validation of your service configuration at package time. -->
+</configuration>
+```
 
 ## Change Log
 
