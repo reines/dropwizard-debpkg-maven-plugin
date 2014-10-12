@@ -56,12 +56,12 @@ public class DropwizardMojo extends AbstractMojo {
     @Component
     private MavenProjectHelper helper = null;
 
-    @Component
+    @Parameter(readonly = true)
     private MavenProject project = null;
 
-    @Component
+    @Parameter(readonly = true)
     private MavenSession session = null;
-    
+
     @Parameter
     private DebConfiguration deb = new DebConfiguration();
 
