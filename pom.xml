@@ -44,8 +44,7 @@
     <properties>
         <jdk.version>1.7</jdk.version>
 
-        <maven-plugin-api.version>2.2.1</maven-plugin-api.version>
-        <maven-project.version>2.2.1</maven-project.version>
+        <maven-plugin-api.version>3.2.3</maven-plugin-api.version>
         <maven-plugins.version>3.3</maven-plugins.version>
         <maven-plugin-tools.version>3.3</maven-plugin-tools.version>
         <maven-shared.version>1.2</maven-shared.version>
@@ -55,7 +54,7 @@
         <jacoco.version>0.7.1.201405082137</jacoco.version>
         <coveralls.version>2.2.0</coveralls.version>
 
-        <jdeb.version>1.1</jdeb.version>
+        <jdeb.version>1.3</jdeb.version>
         <guava.version>18.0</guava.version>
         <mustache.version>0.8.17</mustache.version>
 
@@ -68,32 +67,33 @@
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
             <version>${maven-plugin-api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugin-tools</groupId>
-            <artifactId>maven-plugin-annotations</artifactId>
-            <version>${maven-plugin-tools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-project</artifactId>
-            <version>${maven-project.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.apache.maven</groupId>
-                    <artifactId>maven-artifact</artifactId>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-classworlds</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.codehaus.plexus</groupId>
                     <artifactId>plexus-utils</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>classworlds</groupId>
-                    <artifactId>classworlds</artifactId>
+                    <groupId>org.apache.maven</groupId>
+                    <artifactId>maven-model</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>${maven-plugin-tools.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.maven</groupId>
+                    <artifactId>maven-artifact</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -121,6 +121,10 @@
                 <exclusion>
                     <groupId>org.codehaus.plexus</groupId>
                     <artifactId>plexus-container-default</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.maven</groupId>
+                    <artifactId>maven-plugin-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

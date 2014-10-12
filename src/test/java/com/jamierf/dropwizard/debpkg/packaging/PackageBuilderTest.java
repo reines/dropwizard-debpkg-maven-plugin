@@ -16,6 +16,9 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.tools.tar.TarEntry;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.*;
+import org.bouncycastle.openpgp.bc.BcPGPObjectFactory;
+import org.bouncycastle.openpgp.bc.BcPGPPublicKeyRingCollection;
+import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,7 +37,6 @@ import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.security.SignatureException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.zip.GZIPInputStream;
 
 import static org.junit.Assert.assertEquals;
@@ -102,11 +104,6 @@ public class PackageBuilderTest {
         ));
     }
 
-    @Test(expected = PackagingException.class)
-    public void testPackageRequiresContents() throws IOException, PackagingException {
-        createPackage(Collections.<Resource>emptyList());
-    }
-
     @Test
     public void testCreatesPackage() throws IOException, PackagingException {
         final File debFile = createPackage(ImmutableList.<Resource>of(
@@ -129,9 +126,9 @@ public class PackageBuilderTest {
 
         try (final InputStream keyringIn = PGPUtil.getDecoderStream(PackageBuilderTest.class.getResourceAsStream("public.asc"))) {
             try (final InputStream signatureIn = PGPUtil.getDecoderStream(new FileInputStream(pgpSignatureFile))) {
-                final PGPPublicKey publicKey = ((PGPPublicKeyRing) new PGPPublicKeyRingCollection(keyringIn).getKeyRings().next()).getPublicKey();
-                final PGPSignature signature = ((PGPSignatureList) new PGPObjectFactory(signatureIn).nextObject()).get(0);
-                signature.initVerify(publicKey, BouncyCastleProvider.PROVIDER_NAME);
+                final PGPPublicKey publicKey = ((PGPPublicKeyRing) new BcPGPPublicKeyRingCollection(keyringIn).getKeyRings().next()).getPublicKey();
+                final PGPSignature signature = ((PGPSignatureList) new BcPGPObjectFactory(signatureIn).nextObject()).get(0);
+                signature.init(new BcPGPContentVerifierBuilderProvider(), publicKey);
 
                 signature.update(Files.asByteSource(new File(packageDir, "debian-binary")).read());
                 signature.update(Files.asByteSource(new File(packageDir, "control.tar.gz")).read());
