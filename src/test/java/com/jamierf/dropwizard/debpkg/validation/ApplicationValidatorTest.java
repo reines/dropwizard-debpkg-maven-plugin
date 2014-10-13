@@ -81,4 +81,10 @@ public class ApplicationValidatorTest {
         final ApplicationValidator validator = new ApplicationValidator(jarFile, LOG);
         validator.validateConfiguration(extractResource("valid.yml"));
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testNoMainMethod() throws IOException, ClassNotFoundException {
+        final ApplicationValidator validator = new ApplicationValidator(applicationJar, LOG);
+        validator.validateConfiguration(ApplicationValidatorTest.class, extractResource("valid.yml"));
+    }
 }

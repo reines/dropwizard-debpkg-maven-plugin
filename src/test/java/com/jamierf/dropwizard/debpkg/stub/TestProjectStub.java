@@ -8,10 +8,6 @@ import java.io.IOException;
 
 public class TestProjectStub extends MavenProjectStub {
 
-    public TestProjectStub() throws IOException {
-        this("com.jamierf", "test", "1.0", "jar");
-    }
-
     public TestProjectStub(final String group, final String artifact, final String version, final String type) throws IOException {
         final File file = new File(getBasedir(), String.format("%s-%s.%s", artifact, version, type));
         FileUtils.touch(file);

@@ -94,8 +94,9 @@ public class DropwizardMojo extends AbstractMojo {
     @Parameter
     protected List<ResourceConfiguration> files = Collections.emptyList();
 
-    protected Console log = new LogConsole(getLog());
+    private Console log = new LogConsole(getLog());
 
+    @Override
     public void execute() throws MojoExecutionException {
         init();
 

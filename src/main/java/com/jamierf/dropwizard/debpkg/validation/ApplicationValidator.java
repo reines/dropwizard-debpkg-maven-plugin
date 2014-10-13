@@ -20,7 +20,6 @@ public class ApplicationValidator {
     private final File artifactFile;
     private final Console log;
     private final ClassLoader classLoader;
-    private final Class<?> mainClass;
 
     public ApplicationValidator(final File artifactFile, final Console log) throws IOException, ClassNotFoundException {
         this.artifactFile = artifactFile;
@@ -28,7 +27,6 @@ public class ApplicationValidator {
 
         // Set parent to null to avoid pulling in SLF4J and other conflicts from our self
         classLoader = new URLClassLoader(new URL[]{artifactFile.toURI().toURL()}, null);
-        mainClass = getMainClass();
     }
 
     private Class<?> getMainClass() throws IOException, ClassNotFoundException {
@@ -47,12 +45,16 @@ public class ApplicationValidator {
     }
 
     public void validateConfiguration(final File configFile) throws IOException, ClassNotFoundException {
+        validateConfiguration(getMainClass(), configFile);
+    }
+
+    protected void validateConfiguration(final Class<?> clazz, final File configFile) {
         final SecurityManager securityManager = System.getSecurityManager();
 
         try {
             System.setSecurityManager(new DelegatingNoExitSecurityManager(securityManager));
 
-            final Method mainMethod = mainClass.getDeclaredMethod("main", String[].class);
+            final Method mainMethod = clazz.getDeclaredMethod("main", String[].class);
             // Passed in an Object[] to avoid invoking as varargs
             mainMethod.invoke(null, new Object[]{new String[]{"check", configFile.getAbsolutePath()}});
         }

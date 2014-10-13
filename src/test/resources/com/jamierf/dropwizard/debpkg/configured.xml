@@ -8,7 +8,7 @@
                 <artifactId>dropwizard-debpkg-maven-plugin</artifactId>
                 <configuration>
                     <helper implementation="org.apache.maven.project.DefaultMavenProjectHelper" />
-                    <project implementation="com.jamierf.dropwizard.debpkg.stub.TestProjectStub" />
+                    <project implementation="com.jamierf.dropwizard.debpkg.stub.TestJarProjectStub" />
 
                     <configTemplate>src/test/resources/com/jamierf/dropwizard/debpkg/test.yml</configTemplate>
                     <deb>
