@@ -57,7 +57,7 @@ public class DropwizardMojo extends AbstractMojo {
     @Component
     protected MavenProjectHelper helper = null;
 
-    @Parameter(readonly = true)
+    @Component
     protected MavenProject project = null;
 
     @Parameter
