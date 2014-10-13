@@ -121,6 +121,11 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
+#### 0.8 - _In Progress_
+
+* Updated to Maven 3.
+* Avoid suppressing output when stopping service fails.
+
 #### 0.7 - 28 September 2014
 
 * Only use SysVinit if Upstart isn't present.
