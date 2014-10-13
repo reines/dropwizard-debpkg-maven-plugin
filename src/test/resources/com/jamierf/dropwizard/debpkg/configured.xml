@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.jamierf.dropwizard</groupId>
+                <artifactId>dropwizard-debpkg-maven-plugin</artifactId>
+                <configuration>
+                    <helper implementation="org.apache.maven.project.DefaultMavenProjectHelper" />
+                    <project implementation="com.jamierf.dropwizard.debpkg.stub.TestProjectStub" />
+
+                    <configTemplate>src/test/resources/com/jamierf/dropwizard/debpkg/test.yml</configTemplate>
+                    <deb>
+                        <maintainer>Jamie Furness</maintainer>
+                    </deb>
+                    <jvm>
+                        <memory>256m</memory>
+                        <packageName>oracle-java8-installer</packageName>
+                        <packageVersion>8u20+8u6arm-1~webupd8~0</packageVersion>
+                        <server>false</server>
+                    </jvm>
+                    <unix>
+                        <user>test</user>
+                    </unix>
+                    <path>
+                        <jarFile>/tmp/test.jar</jarFile>
+                        <startScript>/tmp/start.sh</startScript>
+                        <configFile>/tmp/config.yml</configFile>
+                        <jvmConfigFile>/tmp/jvm.conf</jvmConfigFile>
+                        <logDirectory>/tmp/log</logDirectory>
+                        <upstartFile>/tmp/upstart.conf</upstartFile>
+                        <sysVinitFile>/tmp/init.sh</sysVinitFile>
+                    </path>
+                    <pgp>
+                        <alias>test</alias>
+                        <keyring>test.jks</keyring>
+                        <passphrase>qwerty</passphrase>
+                    </pgp>
+                    <dropwizard>
+                        <httpPort>8080</httpPort>
+                        <httpAdminPort>8081</httpAdminPort>
+                        <message>This is a test</message>
+                    </dropwizard>
+                    <files>
+                        <file>
+                            <source>test.gz</source>
+                            <target>/tmp/test.gz</target>
+                            <filter>false</filter>
+                            <user>test</user>
+                            <mode>0600</mode>
+                        </file>
+                    </files>
+                    <validate>true</validate>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

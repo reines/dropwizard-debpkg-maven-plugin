@@ -1,0 +1,24 @@
+# {{{project.name}}} - {{{project.description}}}
+# {{{project.artifactId}}} configuration
+
+message: "{{{dw.message}}}"
+
+server:
+  applicationConnectors:
+    - type: http
+      port: {{{dw.httpPort}}}
+  adminConnectors:
+    - type: http
+      port: {{{dw.httpAdminPort}}}
+
+logging:
+  level: INFO
+
+  loggers:
+    "com.jamierf": ALL
+
+  appenders:
+    - type: console
+    - type: file
+      currentLogFilename: "{{{path.logDirectory}}}/test.log"
+      archive: false

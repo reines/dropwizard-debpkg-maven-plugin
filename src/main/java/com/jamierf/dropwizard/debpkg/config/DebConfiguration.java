@@ -1,22 +1,17 @@
 package com.jamierf.dropwizard.debpkg.config;
 
-import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.vafer.jdeb.utils.Utils;
 
+import java.util.Date;
+
 public class DebConfiguration {
 
     private MavenProject project;
-    private MavenSession session;
 
     public DebConfiguration setProject(final MavenProject project) {
         this.project = project;
-        return this;
-    }
-
-    public DebConfiguration setSession(final MavenSession session) {
-        this.session = session;
         return this;
     }
 
@@ -28,7 +23,7 @@ public class DebConfiguration {
     }
 
     public String getVersion() {
-        return Utils.convertToDebianVersion(project.getVersion(), true, "", session.getStartTime());
+        return Utils.convertToDebianVersion(project.getVersion(), true, "", new Date());
     }
 
     public String getMaintainer() {

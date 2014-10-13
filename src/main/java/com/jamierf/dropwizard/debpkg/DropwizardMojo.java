@@ -17,7 +17,6 @@ import com.jamierf.dropwizard.debpkg.util.LogConsole;
 import com.jamierf.dropwizard.debpkg.validation.ApplicationValidator;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.versioning.ComparableVersion;
-import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -54,52 +53,49 @@ public class DropwizardMojo extends AbstractMojo {
     private static final int UNIX_MODE_USER_ONLY = 0100600;
 
     @Component
-    private MavenProjectHelper helper = null;
+    protected MavenProjectHelper helper = null;
 
     @Parameter(readonly = true)
-    private MavenProject project = null;
-
-    @Parameter(readonly = true)
-    private MavenSession session = null;
+    protected MavenProject project = null;
 
     @Parameter
-    private DebConfiguration deb = new DebConfiguration();
+    protected DebConfiguration deb = new DebConfiguration();
 
     @Parameter
-    private JvmConfiguration jvm = new JvmConfiguration();
+    protected JvmConfiguration jvm = new JvmConfiguration();
 
     @Parameter
-    private UnixConfiguration unix = new UnixConfiguration();
+    protected UnixConfiguration unix = new UnixConfiguration();
 
     @Parameter
-    private PathConfiguration path = new PathConfiguration();
+    protected PathConfiguration path = new PathConfiguration();
 
     @Parameter
-    private Map<String, String> dropwizard = Collections.emptyMap();
+    protected Map<String, String> dropwizard = Collections.emptyMap();
 
     @Parameter(required = true)
-    private File configTemplate = null;
+    protected File configTemplate = null;
 
     @Parameter
-    private File artifactFile;
+    protected File artifactFile;
 
     @Parameter
-    private File outputFile;
+    protected File outputFile;
 
     @Parameter
-    private PgpConfiguration pgp = null;
+    protected PgpConfiguration pgp = null;
 
     @Parameter
     @SuppressWarnings("FieldCanBeLocal")
-    private boolean validate = true;
+    protected boolean validate = true;
 
     @Parameter
-    private List<ResourceConfiguration> files = Collections.emptyList();
+    protected List<ResourceConfiguration> files = Collections.emptyList();
 
-    private Console log = new LogConsole(getLog());
+    protected Console log = new LogConsole(getLog());
 
     public void execute() throws MojoExecutionException {
-        setupMojoConfiguration();
+        init();
 
         final Collection<Resource> resources = buildResourceList();
         final Map<String, Object> parameters = buildParameterMap();
@@ -114,11 +110,10 @@ public class DropwizardMojo extends AbstractMojo {
         attachArtifact(debFile);
     }
 
-    private void setupMojoConfiguration() throws MojoExecutionException {
+    protected void init() throws MojoExecutionException {
         log = new LogConsole(getLog()); // Re set up logging in case the log implementation was changed during execution
 
         deb.setProject(project);
-        deb.setSession(session);
         path.setProject(project);
 
         if (artifactFile == null) {
@@ -137,7 +132,8 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private Collection<Resource> buildResourceList() {
+    @SuppressWarnings("OctalInteger")
+    protected Collection<Resource> buildResourceList() {
         return ImmutableList.<Resource>builder()
                 .add(new FileResource(configTemplate, true, path.getConfigFile(), unix.getUser(), unix.getUser(), UNIX_MODE_USER_ONLY))
                 .add(new EmbeddedResource("/files/jvm.conf", true, path.getJvmConfigFile(), "root", "root", TarEntry.DEFAULT_FILE_MODE))
@@ -149,10 +145,9 @@ public class DropwizardMojo extends AbstractMojo {
                 .build();
     }
 
-    private Map<String, Object> buildParameterMap() {
+    protected Map<String, Object> buildParameterMap() {
         return ImmutableMap.<String, Object>builder()
                 .put("project", project)
-                .put("session", session)
                 .put("deb", deb)
                 .put("jvm", jvm)
                 .put("unix", unix)
@@ -162,7 +157,7 @@ public class DropwizardMojo extends AbstractMojo {
                 .build();
     }
 
-    private File extractResources(final Collection<Resource> resources, final Map<String, Object> parameters) throws MojoExecutionException {
+    protected File extractResources(final Collection<Resource> resources, final Map<String, Object> parameters) throws MojoExecutionException {
         try {
             final File outputDir = new File(project.getBuild().getDirectory(), WORKING_DIRECTORY_NAME);
             new ResourceExtractor(parameters, log).extractResources(resources, outputDir);
@@ -173,7 +168,7 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private void validateApplicationConfiguration(final File resourcesDir) throws MojoExecutionException {
+    protected void validateApplicationConfiguration(final File resourcesDir) throws MojoExecutionException {
         try {
             final Optional<Dependency> dropwizardDependency = Iterables.tryFind(project.getModel().getDependencies(),
                     new DependencyFilter(DROPWIZARD_GROUP_ID, DROPWIZARD_ARTIFACT_ID));
@@ -194,7 +189,7 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private File createPackage(final Collection<Resource> resources, final File inputDir) throws MojoExecutionException {
+    protected File createPackage(final Collection<Resource> resources, final File inputDir) throws MojoExecutionException {
         try {
             final URI homepage = project.getUrl() == null ? null : URI.create(project.getUrl());
             new PackageBuilder(project.getArtifactId(), project.getDescription(), homepage, log, Optional.fromNullable(pgp))
@@ -206,7 +201,7 @@ public class DropwizardMojo extends AbstractMojo {
         }
     }
 
-    private void attachArtifact(final File artifactFile) {
+    protected void attachArtifact(final File artifactFile) {
         log.info(String.format("Attaching created %s package %s", OUTPUT_ARTIFACT_TYPE, artifactFile));
         helper.attachArtifact(project, OUTPUT_ARTIFACT_TYPE, artifactFile);
     }
