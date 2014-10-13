@@ -38,6 +38,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Mojo(name = "dwpackage", defaultPhase = LifecyclePhase.PACKAGE)
 public class DropwizardMojo extends AbstractMojo {
 
@@ -73,7 +75,7 @@ public class DropwizardMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> dropwizard = Collections.emptyMap();
 
-    @Parameter(required = true)
+    @Parameter
     protected File configTemplate = null;
 
     @Parameter
@@ -112,6 +114,8 @@ public class DropwizardMojo extends AbstractMojo {
 
     protected void init() throws MojoExecutionException {
         log = new LogConsole(getLog()); // Re set up logging in case the log implementation was changed during execution
+
+        checkNotNull(configTemplate);
 
         deb.setProject(project);
         path.setProject(project);
