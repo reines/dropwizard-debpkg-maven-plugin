@@ -6,11 +6,11 @@ import java.io.File;
 
 public class TestArtifactStub extends ArtifactStub {
 
-    public TestArtifactStub(final String group, final String artifact, final String version, final String type) {
+    public TestArtifactStub(final String group, final String artifact, final String version, final String type, final File file) {
         setType(type);
         setGroupId(group);
         setArtifactId(artifact);
         setVersion(version);
-        setFile(new File(String.format("%s-%s.%s", artifact, version, type)));
+        setFile(file);
     }
 }

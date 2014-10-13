@@ -109,7 +109,8 @@ public class DropwizardMojo extends AbstractMojo {
         }
 
         final File debFile = createPackage(resources, resourcesDir);
-        attachArtifact(debFile);
+        log.info(String.format("Attaching created %s package %s", OUTPUT_ARTIFACT_TYPE, debFile));
+        helper.attachArtifact(project, OUTPUT_ARTIFACT_TYPE, debFile);
     }
 
     protected void init() throws MojoExecutionException {
@@ -203,10 +204,5 @@ public class DropwizardMojo extends AbstractMojo {
         catch (PackagingException e) {
             throw new MojoExecutionException("Failed to create Debian package", e);
         }
-    }
-
-    protected void attachArtifact(final File artifactFile) {
-        log.info(String.format("Attaching created %s package %s", OUTPUT_ARTIFACT_TYPE, artifactFile));
-        helper.attachArtifact(project, OUTPUT_ARTIFACT_TYPE, artifactFile);
     }
 }

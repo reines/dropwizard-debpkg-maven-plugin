@@ -1,7 +1,15 @@
 package com.jamierf.dropwizard.debpkg;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableSet;
+import com.jamierf.dropwizard.debpkg.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -96,5 +104,35 @@ public class DefaultDropwizardMojoTest extends AbstractDropwizardMojoTest {
     public void testFilesParameter() {
         assertNotNull(plugin.files);
         assertTrue(plugin.files.isEmpty());
+    }
+
+    @Test
+    public void testParameterMapContainsExpectedValues() {
+        final Map<String, Object> params = plugin.buildParameterMap();
+        assertEquals(plugin.project, params.get("project"));
+        assertEquals(plugin.deb, params.get("deb"));
+        assertEquals(plugin.jvm, params.get("jvm"));
+        assertEquals(plugin.unix, params.get("unix"));
+        assertEquals(plugin.dropwizard, params.get("dw"));
+        assertEquals(plugin.dropwizard, params.get("dropwizard"));
+        assertEquals(plugin.path, params.get("path"));
+    }
+
+    @Test
+    public void testResourceListContainsExpectedResources() {
+        final Set<String> targets = ImmutableSet.copyOf(Collections2.transform(plugin.buildResourceList(), new Function<Resource, String>() {
+            @Nullable
+            @Override
+            public String apply(final Resource input) {
+                return input.getTarget();
+            }
+        }));
+
+        assertTrue(targets.contains(plugin.path.getConfigFile()));
+        assertTrue(targets.contains(plugin.path.getJvmConfigFile()));
+        assertTrue(targets.contains(plugin.path.getUpstartFile()));
+        assertTrue(targets.contains(plugin.path.getSysVinitFile()));
+        assertTrue(targets.contains(plugin.path.getStartScript()));
+        assertTrue(targets.contains(plugin.path.getJarFile()));
     }
 }
