@@ -18,8 +18,9 @@ import java.net.URI;
 public class ApplicationValidatorTest {
 
     private static final Console LOG = new SystemConsole();
-
     private static final URI APPLICATION_JAR_URI = URI.create("https://dl.dropboxusercontent.com/s/r7snqf4arye0w6n/dropwizard-example-0.7.0.jar");
+
+    private static class NoMainMethodClass {}
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -85,6 +86,6 @@ public class ApplicationValidatorTest {
     @Test(expected = RuntimeException.class)
     public void testNoMainMethod() throws IOException, ClassNotFoundException {
         final ApplicationValidator validator = new ApplicationValidator(applicationJar, LOG);
-        validator.validateConfiguration(ApplicationValidatorTest.class, extractResource("valid.yml"));
+        validator.validateConfiguration(NoMainMethodClass.class, extractResource("valid.yml"));
     }
 }
