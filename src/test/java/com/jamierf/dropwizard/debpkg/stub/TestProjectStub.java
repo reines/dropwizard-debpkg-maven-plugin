@@ -18,7 +18,10 @@ public class TestProjectStub extends MavenProjectStub {
         setVersion(version);
         setFile(file);
 
-        setBuild(new TestBuildStub(new File(getBasedir(), "out")));
+        final File outputDirectory = new File(getBasedir(), "out");
+        final File buildDirectory = new File(getBasedir(), "build");
+
+        setBuild(new TestBuildStub(buildDirectory, outputDirectory));
     }
 
     @Override
