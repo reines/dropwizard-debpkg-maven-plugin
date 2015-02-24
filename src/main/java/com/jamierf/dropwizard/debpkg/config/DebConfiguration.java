@@ -43,7 +43,7 @@ public class DebConfiguration {
     }
     
     public DebConfiguration setName(String name) {
-		this.name = name;
-		return this;
-	}
+        this.name = name;
+        return this;
+    }
 }
