@@ -18,8 +18,15 @@ public class DebConfiguration {
     @Parameter
     private String maintainer = "Unspecified";
 
+    @Parameter
+    private String name = null;
+
     public String getName() {
-        return project.getArtifactId();
+    	if (name != null) {
+    		return name;
+    	} else {
+    		return project.getArtifactId();
+    	}
     }
 
     public String getVersion() {
@@ -34,4 +41,8 @@ public class DebConfiguration {
         this.maintainer = maintainer;
         return this;
     }
+    
+    public void setName(String name) {
+		this.name = name;
+	}
 }
