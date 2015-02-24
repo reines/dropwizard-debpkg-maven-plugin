@@ -78,6 +78,7 @@ Below is the default configuration. The only required parameter is the `configTe
 <configuration>
     <deb>
         <maintainer>Unspecified</maintainer><!-- Optional: The person responsible for this service. -->
+        <name /><!-- Optional: the .deb package name. If not specified, project.artifactId is used. -->
     </deb>
     <jvm>
         <memory>128m</memory><!-- Optional: JVM heap size to allocate, once deployed. -->

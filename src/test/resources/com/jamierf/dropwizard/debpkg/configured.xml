@@ -13,6 +13,7 @@
                     <configTemplate>src/test/resources/com/jamierf/dropwizard/debpkg/test.yml</configTemplate>
                     <deb>
                         <maintainer>Jamie Furness</maintainer>
+                        <name>AlternativePackageName</name>
                     </deb>
                     <jvm>
                         <memory>256m</memory>
