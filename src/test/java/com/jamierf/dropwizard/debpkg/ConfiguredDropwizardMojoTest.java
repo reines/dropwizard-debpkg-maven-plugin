@@ -30,7 +30,7 @@ public class ConfiguredDropwizardMojoTest extends AbstractDropwizardMojoTest {
     public void testDebParameter() {
         assertNotNull(plugin.deb);
         assertEquals("Jamie Furness", plugin.deb.getMaintainer());
-        assertEquals("test", plugin.deb.getName());
+        assertEquals("AlternativePackageName", plugin.deb.getName());
         assertEquals("1.0", plugin.deb.getVersion());
     }
 

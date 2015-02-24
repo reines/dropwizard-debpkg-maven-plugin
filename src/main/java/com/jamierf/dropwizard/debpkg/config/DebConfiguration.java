@@ -22,11 +22,11 @@ public class DebConfiguration {
     private String name = null;
 
     public String getName() {
-    	if (name != null) {
-    		return name;
-    	} else {
-    		return project.getArtifactId();
-    	}
+        if (name != null) {
+            return name;
+        } else {
+            return project.getArtifactId();
+        }
     }
 
     public String getVersion() {
@@ -42,7 +42,8 @@ public class DebConfiguration {
         return this;
     }
     
-    public void setName(String name) {
+    public DebConfiguration setName(String name) {
 		this.name = name;
+		return this;
 	}
 }
