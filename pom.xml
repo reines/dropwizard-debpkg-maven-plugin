@@ -61,6 +61,7 @@
         <jsr305.version>3.0.0</jsr305.version>
         <maven-compat.version>3.2.3</maven-compat.version>
         <sisu-guice.version>3.2.4</sisu-guice.version>
+        <maven-gpg.version>1.1</maven-gpg.version>
 
         <junit.version>4.12-beta-2</junit.version>
         <mockito.version>1.10.8</mockito.version>
@@ -318,4 +319,34 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
