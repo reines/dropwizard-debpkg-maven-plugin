@@ -30,7 +30,10 @@ public class PathConfiguration {
     private String upstartFile = null;
 
     @Parameter
-    private String sysVinitFile = null;
+    private String systemVFile = null;
+
+    @Parameter
+    private String systemDFile = null;
 
     public String getJarFile() {
         return jarFile == null ? String.format("/usr/share/java/%s.jar", project.getArtifactId()) : jarFile;
@@ -86,12 +89,20 @@ public class PathConfiguration {
         return this;
     }
 
-    public String getSysVinitFile() {
-        return sysVinitFile == null ? String.format("/etc/init.d/%s", project.getArtifactId()) : sysVinitFile;
+    public String getSystemVFile() {
+        return systemVFile == null ? String.format("/etc/init.d/%s", project.getArtifactId()) : systemVFile;
     }
 
-    public PathConfiguration setSysVinitFile(final String sysVinitFile) {
-        this.sysVinitFile = sysVinitFile;
+    public PathConfiguration setSystemVFile(final String systemVFile) {
+        this.systemVFile = systemVFile;
         return this;
+    }
+
+    public String getSystemDFile() {
+        return systemDFile == null ? String.format("/lib/systemd/system/%s.service", project.getArtifactId()) : systemDFile;
+    }
+
+    public void setSystemDFile(final String systemDFile) {
+        this.systemDFile = systemDFile;
     }
 }

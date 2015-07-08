@@ -31,7 +31,8 @@
                         <jvmConfigFile>/tmp/jvm.conf</jvmConfigFile>
                         <logDirectory>/tmp/log</logDirectory>
                         <upstartFile>/tmp/upstart.conf</upstartFile>
-                        <sysVinitFile>/tmp/init.sh</sysVinitFile>
+                        <systemVFile>/tmp/init.sh</systemVFile>
+                        <systemDFile>/tmp/systemd.service</systemDFile>
                     </path>
                     <pgp>
                         <alias>test</alias>

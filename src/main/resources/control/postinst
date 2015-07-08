@@ -1,13 +1,29 @@
 #!/bin/sh
 
-# Upstart
-if command -v initctl >/dev/null 2>&1; then
-    initctl reload-configuration
-    initctl start "{{{project.artifactId}}}"
-# SysVinit
-elif command -v update-rc.d >/dev/null 2>&1; then
-    update-rc.d "{{{project.artifactId}}}" defaults
-    /etc/init.d/{{{project.artifactId}}} start
+# SystemD
+if which systemctl >/dev/null; then
+    echo "Registering SystemD service: {{{project.artifactId}}}"
+    systemctl daemon-reload
+    systemctl enable "{{{project.artifactId}}}"
+    systemctl start "{{{project.artifactId}}}"
+    exit 0
 fi
 
-exit 0
+# Upstart
+if which initctl >/dev/null; then
+    echo "Registering Upstart service: {{{project.artifactId}}}"
+    initctl reload-configuration
+    initctl start "{{{project.artifactId}}}"
+    exit 0
+fi
+
+# SystemV
+if which invoke-rc.d >/dev/null; then
+    echo "Registering SystemV service: {{{project.artifactId}}}"
+    update-rc.d "{{{project.artifactId}}}" defaults
+    invoke-rc.d "{{{project.artifactId}}}" start
+    exit 0
+fi
+
+echo "Unable to find supported init system."
+exit 1
