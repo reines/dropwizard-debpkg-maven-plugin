@@ -3,6 +3,7 @@ package com.jamierf.dropwizard.debpkg.packaging;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.jamierf.dropwizard.debpkg.config.PgpConfiguration;
@@ -72,7 +73,8 @@ public class PackageBuilderTest {
                 .put("project", ImmutableMap.of("description", DESCRIPTION, "artifactId", "com.jamierf.dropwizard"))
                 .put("jvm", ImmutableMap.of("packageName", "openjdk-7-jdk", "packageVersion", ""))
                 .put("unix", ImmutableMap.of("user", USER))
-                .put("path", ImmutableMap.of("logDirectory", "/tmp/logs"))
+                .put("path", ImmutableMap.of("logDirectory", "/tmp/logs", "configFile", "/tmp/config.yml",
+                    "jvmConfigFile", "/tmp/jvm.conf"))
                 .build(), LOG);
 
         final File keyring = temporaryFolder.newFile();
@@ -161,7 +163,10 @@ public class PackageBuilderTest {
         final File controlDir = temporaryFolder.newFolder();
         ArchiveUtils.extractTarGzip(new File(packageDir, "control.tar.gz"), controlDir);
 
-        assertTrue(new File(controlDir, "control").exists());
+        for (final String file : ImmutableSet.of(
+            "control", "conffiles", "preinst", "postinst", "prerm", "postrm")) {
+            assertTrue(new File(controlDir, file).exists());
+        }
     }
 
     @Test
