@@ -17,7 +17,7 @@ public class ResourceExtractor {
 
     private static final Templater TEMPLATER = Templater.getDefault();
     private static final Collection<String> CONTROL_RESOURCES = ImmutableSet.of(
-            "control", "preinst", "postinst", "prerm", "postrm"
+            "control", "conffiles", "preinst", "postinst", "prerm", "postrm"
     );
 
     private final Map<String, Object> parameters;
