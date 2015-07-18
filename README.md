@@ -125,6 +125,7 @@ Below is the default configuration. The only required parameter is the `configTe
 
 #### 0.9 - _WIP_
 
+* Added [DEBIAN/conffiles](https://www.debian.org/doc/manuals/maint-guide/dother.en.html#conffiles) support.
 * Added SystemD support.
 * Renamed `sysVinitFile` configuration parameter to `systemVFile`.
 
