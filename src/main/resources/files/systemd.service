@@ -1,0 +1,10 @@
+[Unit]
+Description={{{project.name}}} - {{{project.description}}}
+
+[Service]
+ExecStart={{{path.startScript}}}
+User={{{unix.user}}}
+Group={{{unix.user}}}
+
+[Install]
+WantedBy=multi-user.target

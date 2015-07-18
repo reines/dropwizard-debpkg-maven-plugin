@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/reines/dropwizard-debpkg-maven-plugin/badge.png?branch=master)](https://coveralls.io/r/reines/dropwizard-debpkg-maven-plugin?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jamierf.dropwizard/dropwizard-debpkg-maven-plugin/badge.png)](https://maven-badges.herokuapp.com/maven-central/com.jamierf.dropwizard/dropwizard-debpkg-maven-plugin)
 
-A maven plugin for packaging your [Dropwizard Application](http://dropwizard.github.io/dropwizard) as a [Debian package](http://en.wikipedia.org/wiki/Deb_\(file_format\)). Your Application is managed as an [Upstart](http://upstart.ubuntu.com) or [Systemd](https://wiki.debian.org/systemd) job, with the service name `${project.artifactId}`.
+A maven plugin for packaging your [Dropwizard Application](http://dropwizard.github.io/dropwizard) as a [Debian package](http://en.wikipedia.org/wiki/Deb_\(file_format\)). Your Application is managed as a [SystemD](https://en.wikipedia.org/wiki/Systemd), [Upstart](https://en.wikipedia.org/wiki/Upstart) or [SystemV](https://en.wikipedia.org/wiki/Init#SysV-style) job, with the service name `${project.artifactId}`.
 
 During packaging your configuration file is treated as a [Mustache](http://mustache.github.io) template, and configuration properties injected. Parameters are exposes prefixed with both `dw` and `dropwizard`. Missing properties will cause the build to fail.
 Assuming `validate` is set to true (the default), the configuration will be validated, and build failed if it fails.
@@ -101,7 +101,8 @@ Below is the default configuration. The only required parameter is the `configTe
         <jvmConfigFile>/etc/${project.artifactId}.jvm.conf</jvmConfigFile><!-- Optional: Path to your JVM parameter configuration, once deployed. -->
         <logDirectory>/var/log/${project.artifactId}</logDirectory><!-- Optional: Directory for service logs, once deployed. -->
         <upstartFile>/etc/init/${project.artifactId}.conf</upstartFile><!-- Optional: Path to the service upstart configuration, once deployed. -->
-        <sysVinitFile>/etc/init.d/${project.artifactId}</sysVinitFile><!-- Optional: Path to the service init configuration, once deployed. -->
+        <systemVFile>/etc/init.d/${project.artifactId}</systemVFile><!-- Optional: Path to the service init configuration, once deployed. -->
+        <systemDFile>/lib/systemd/system/${project.artifactId}.service</systemVFile><!-- Optional: Path to the service systemd configuration, once deployed. -->
     </path>
     <files><!-- Optional: Empty by default. -->
         <file>
@@ -121,6 +122,11 @@ Below is the default configuration. The only required parameter is the `configTe
 ```
 
 ## Change Log
+
+#### 0.9 - _WIP_
+
+* Added SystemD support.
+* Renamed `sysVinitFile` configuration parameter to `systemVFile`.
 
 #### 0.8 - 14 April 2015
 

@@ -58,7 +58,8 @@ public class ConfiguredDropwizardMojoTest extends AbstractDropwizardMojoTest {
         assertEquals("/tmp/jvm.conf", plugin.path.getJvmConfigFile());
         assertEquals("/tmp/log", plugin.path.getLogDirectory());
         assertEquals("/tmp/upstart.conf", plugin.path.getUpstartFile());
-        assertEquals("/tmp/init.sh", plugin.path.getSysVinitFile());
+        assertEquals("/tmp/init.sh", plugin.path.getSystemVFile());
+        assertEquals("/tmp/systemd.service", plugin.path.getSystemDFile());
     }
 
     @Test

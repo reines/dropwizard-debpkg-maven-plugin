@@ -65,7 +65,8 @@ public class DefaultDropwizardMojoTest extends AbstractDropwizardMojoTest {
         assertEquals("/etc/test.jvm.conf", plugin.path.getJvmConfigFile());
         assertEquals("/var/log/test", plugin.path.getLogDirectory());
         assertEquals("/etc/init/test.conf", plugin.path.getUpstartFile());
-        assertEquals("/etc/init.d/test", plugin.path.getSysVinitFile());
+        assertEquals("/etc/init.d/test", plugin.path.getSystemVFile());
+        assertEquals("/lib/systemd/system/test.service", plugin.path.getSystemDFile());
     }
 
     @Test
@@ -131,7 +132,8 @@ public class DefaultDropwizardMojoTest extends AbstractDropwizardMojoTest {
         assertTrue(targets.contains(plugin.path.getConfigFile()));
         assertTrue(targets.contains(plugin.path.getJvmConfigFile()));
         assertTrue(targets.contains(plugin.path.getUpstartFile()));
-        assertTrue(targets.contains(plugin.path.getSysVinitFile()));
+        assertTrue(targets.contains(plugin.path.getSystemVFile()));
+        assertTrue(targets.contains(plugin.path.getSystemDFile()));
         assertTrue(targets.contains(plugin.path.getStartScript()));
         assertTrue(targets.contains(plugin.path.getJarFile()));
     }
