@@ -126,6 +126,8 @@ Below is the default configuration. The only required parameter is the `configTe
 
 #### 0.9 - _WIP_
 
+* Added `respawn` parameter to enable `Restart` directive with SystemD and `respawn` directive with Upstart.
+* Added `oom` override with SystemD.
 * Added [DEBIAN/conffiles](https://www.debian.org/doc/manuals/maint-guide/dother.en.html#conffiles) support.
 * Added SystemD support.
 * Renamed `sysVinitFile` configuration parameter to `systemVFile`.
