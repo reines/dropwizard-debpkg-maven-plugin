@@ -54,6 +54,7 @@ public class DefaultDropwizardMojoTest extends AbstractDropwizardMojoTest {
     public void testUnixParameter() {
         assertNotNull(plugin.unix);
         assertEquals("dropwizard", plugin.unix.getUser());
+        assertTrue(plugin.unix.isRespawn());
     }
 
     @Test

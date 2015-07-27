@@ -88,6 +88,7 @@ Below is the default configuration. The only required parameter is the `configTe
     </jvm>
     <unix>
         <user>dropwizard</user><!-- Optional: The unix user to create and run as. -->
+        <respawn>true</respawn><!-- Optional: If the service should respawn upon exit (not supported for SystemV). -->
     </unix>
     <pgp><!-- Optional: Not present by default. If present, all children are required. -->
         <alias /><!-- Required: Alias of PGP key to sign with. -->

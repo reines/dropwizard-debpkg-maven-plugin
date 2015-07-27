@@ -23,6 +23,7 @@
                     </jvm>
                     <unix>
                         <user>test</user>
+                        <respawn>false</respawn>
                     </unix>
                     <path>
                         <jarFile>/tmp/test.jar</jarFile>

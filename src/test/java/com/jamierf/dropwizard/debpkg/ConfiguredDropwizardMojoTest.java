@@ -47,6 +47,7 @@ public class ConfiguredDropwizardMojoTest extends AbstractDropwizardMojoTest {
     public void testUnixParameter() {
         assertNotNull(plugin.unix);
         assertEquals("test", plugin.unix.getUser());
+        assertFalse(plugin.unix.isRespawn());
     }
 
     @Test

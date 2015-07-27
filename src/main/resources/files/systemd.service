@@ -3,6 +3,8 @@ Description={{{project.name}}}
 
 [Service]
 ExecStart={{{path.startScript}}}
+Restart={{#unix.respawn}}always{{/unix.respawn}}{{^unix.respawn}}no{{/unix.respawn}}
+OOMScoreAdjust=-1000
 User={{{unix.user}}}
 Group={{{unix.user}}}
 
