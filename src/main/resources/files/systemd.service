@@ -1,5 +1,5 @@
 [Unit]
-Description={{{project.name}}} - {{{project.description}}}
+Description={{{project.name}}}
 
 [Service]
 ExecStart={{{path.startScript}}}
