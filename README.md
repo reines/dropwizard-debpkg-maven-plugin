@@ -103,7 +103,7 @@ Below is the default configuration. The only required parameter is the `configTe
         <logDirectory>/var/log/${project.artifactId}</logDirectory><!-- Optional: Directory for service logs, once deployed. -->
         <upstartFile>/etc/init/${project.artifactId}.conf</upstartFile><!-- Optional: Path to the service upstart configuration, once deployed. -->
         <systemVFile>/etc/init.d/${project.artifactId}</systemVFile><!-- Optional: Path to the service init configuration, once deployed. -->
-        <systemDFile>/lib/systemd/system/${project.artifactId}.service</systemVFile><!-- Optional: Path to the service systemd configuration, once deployed. -->
+        <systemDFile>/lib/systemd/system/${project.artifactId}.service</systemDFile><!-- Optional: Path to the service systemd configuration, once deployed. -->
     </path>
     <files><!-- Optional: Empty by default. -->
         <file>
