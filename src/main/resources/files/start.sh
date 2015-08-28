@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+[ -r "/etc/default/{{{project.artifactId}}}" ] && . "/etc/default/{{{project.artifactId}}}"
+
 JAVA_OPTS=$(sed -e '/^[[:space:]]*\/\//d' -e 's|[[:space:]]*//.*| |' -e 's|^| |' {{{path.jvmConfigFile}}} | tr -d "\n")
 JAVA_CMD="java ${JAVA_OPTS} -jar {{{path.jarFile}}} server {{{path.configFile}}}"
 
