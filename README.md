@@ -124,6 +124,8 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
+#### 0.10 - _WIP_
+
 #### 0.9 - 10 August 2015
 
 * Added `respawn` parameter to enable `Restart` directive with SystemD and `respawn` directive with Upstart.
