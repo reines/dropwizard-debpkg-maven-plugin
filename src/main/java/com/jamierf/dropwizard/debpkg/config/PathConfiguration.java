@@ -3,6 +3,8 @@ package com.jamierf.dropwizard.debpkg.config;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
+import com.google.common.base.Strings;
+
 public class PathConfiguration {
     
     private MavenProject project;
@@ -36,7 +38,7 @@ public class PathConfiguration {
     private String systemDFile = null;
 
     public String getJarFile() {
-        return jarFile == null ? String.format("/usr/share/java/%s.jar", project.getArtifactId()) : jarFile;
+        return Strings.isNullOrEmpty(jarFile) ? String.format("/usr/share/java/%s.jar", project.getArtifactId()) : jarFile;
     }
 
     public PathConfiguration setJarFile(final String jarFile) {
@@ -45,7 +47,7 @@ public class PathConfiguration {
     }
 
     public String getStartScript() {
-        return startScript == null ? String.format("/usr/bin/%s", project.getArtifactId()) : startScript;
+        return Strings.isNullOrEmpty(startScript) ? String.format("/usr/bin/%s", project.getArtifactId()) : startScript;
     }
 
     public PathConfiguration setStartScript(final String startScript) {
@@ -54,7 +56,7 @@ public class PathConfiguration {
     }
 
     public String getConfigFile() {
-        return configFile == null ? String.format("/etc/%s.yml", project.getArtifactId()) : configFile;
+        return Strings.isNullOrEmpty(configFile) ? String.format("/etc/%s.yml", project.getArtifactId()) : configFile;
     }
 
     public PathConfiguration setConfigFile(final String configFile) {
@@ -63,7 +65,7 @@ public class PathConfiguration {
     }
 
     public String getJvmConfigFile() {
-        return jvmConfigFile == null ? String.format("/etc/%s.jvm.conf", project.getArtifactId()) : jvmConfigFile;
+        return Strings.isNullOrEmpty(jvmConfigFile) ? String.format("/etc/%s.jvm.conf", project.getArtifactId()) : jvmConfigFile;
     }
 
     public PathConfiguration setJvmConfigFile(final String jvmConfigFile) {
@@ -72,7 +74,7 @@ public class PathConfiguration {
     }
 
     public String getLogDirectory() {
-        return logDirectory == null ? String.format("/var/log/%s", project.getArtifactId()) : logDirectory;
+        return Strings.isNullOrEmpty(logDirectory) ? String.format("/var/log/%s", project.getArtifactId()) : logDirectory;
     }
 
     public PathConfiguration setLogDirectory(final String logDirectory) {
@@ -81,7 +83,7 @@ public class PathConfiguration {
     }
 
     public String getUpstartFile() {
-        return upstartFile == null ? String.format("/etc/init/%s.conf", project.getArtifactId()) : upstartFile;
+        return Strings.isNullOrEmpty(upstartFile) ? String.format("/etc/init/%s.conf", project.getArtifactId()) : upstartFile;
     }
 
     public PathConfiguration setUpstartFile(final String upstartFile) {
@@ -90,7 +92,7 @@ public class PathConfiguration {
     }
 
     public String getSystemVFile() {
-        return systemVFile == null ? String.format("/etc/init.d/%s", project.getArtifactId()) : systemVFile;
+        return Strings.isNullOrEmpty(systemVFile) ? String.format("/etc/init.d/%s", project.getArtifactId()) : systemVFile;
     }
 
     public PathConfiguration setSystemVFile(final String systemVFile) {
@@ -99,7 +101,7 @@ public class PathConfiguration {
     }
 
     public String getSystemDFile() {
-        return systemDFile == null ? String.format("/lib/systemd/system/%s.service", project.getArtifactId()) : systemDFile;
+        return Strings.isNullOrEmpty(systemDFile) ? String.format("/lib/systemd/system/%s.service", project.getArtifactId()) : systemDFile;
     }
 
     public void setSystemDFile(final String systemDFile) {

@@ -79,6 +79,7 @@ Below is the default configuration. The only required parameter is the `configTe
     <deb>
         <maintainer>Unspecified</maintainer><!-- Optional: The person responsible for this service. -->
         <name /><!-- Optional: the .deb package name. If not specified, project.artifactId is used. -->
+        <version /><!-- Optional: the .deb package version. If not specified, project.version is used. -->
     </deb>
     <jvm>
         <memory>128m</memory><!-- Optional: JVM heap size to allocate, once deployed. -->
@@ -127,6 +128,7 @@ Below is the default configuration. The only required parameter is the `configTe
 #### 0.10 - _WIP_
 
 * Added executing `/etc/default/{project.artifactId}` from start script if it exists (@jplock).
+* Added option to override the Debian package version.
 
 #### 0.9 - 10 August 2015
 
