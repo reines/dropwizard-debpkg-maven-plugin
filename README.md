@@ -125,7 +125,7 @@ Below is the default configuration. The only required parameter is the `configTe
 
 ## Change Log
 
-#### 0.10 - _WIP_
+#### 0.10 - 9 March 2016
 
 * Added executing `/etc/default/{project.artifactId}` from start script if it exists (@jplock).
 * Added option to override the Debian package version.
